@@ -8,5 +8,4 @@ public class WireWorld {
         WireWorld world = new WireWorld();
         InputData.processArguments(args);
     }
-
 }
