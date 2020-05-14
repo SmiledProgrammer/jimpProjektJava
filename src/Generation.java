@@ -25,4 +25,32 @@ public class Generation {
         /* do zaimplementowania */
     }
 
+    public void printToConsole()
+    {
+    	System.out.println(width + " " + height);
+    	
+    	for (int y=0; y< height; y++)
+    	{
+    		for (int x=0; x<width; x++)
+    		{
+    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY)
+    			{
+    				System.out.printf( 0 +" ");
+    			}
+    			if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR)
+    			{
+    				System.out.printf( 1 +" ");
+    			}
+    			if (grid[x][y] == Generation.FieldState.FIELD_HEAD)
+    			{
+    				System.out.printf( 2 +" ");
+    			}
+    			if (grid[x][y] == Generation.FieldState.FIELD_TAIL)
+    			{
+    				System.out.printf( 3 +" ");
+    			}
+    		}
+    		System.out.println(" "); //nowa linia
+    	}
+    }
 }

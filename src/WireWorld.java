@@ -7,5 +7,6 @@ public class WireWorld {
     public static void main(String[] args) {
         WireWorld world = new WireWorld();
         InputData.processArguments(args);
+        generation.printToConsole();
     }
 }
