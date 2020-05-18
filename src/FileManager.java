@@ -43,7 +43,7 @@ public class FileManager {
 					
 					arguments = line.split(" ");
 					
-					//for (int j=0; j<arguments.length; j++) System.out.println(arguments[j]);
+					for (int j=0; j<arguments.length; j++) System.out.println(arguments[j]);
  
 					for (int x = 0; x < width; x++) {
 						try {
