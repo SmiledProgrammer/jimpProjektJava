@@ -5,9 +5,8 @@ public class Generation {
 
     public enum FieldState { FIELD_EMPTY, FIELD_CONDUCTOR, FIELD_HEAD, FIELD_TAIL }
 
+	public int width, height;
     public FieldState[][] grid;
-    public int numberOfGenerations;
-    public int width, height;
 
     public Generation() {
         width = defaultGenerationWidth;
@@ -25,32 +24,23 @@ public class Generation {
         /* do zaimplementowania */
     }
 
-    public void printToConsole()
-    {
+    public void printToConsole() {
     	System.out.println(width + " " + height);
     	
-    	for (int y=0; y< height; y++)
-    	{
-    		for (int x=0; x<width; x++)
-    		{
-    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY)
-    			{
-    				System.out.printf( 0 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR)
-    			{
-    				System.out.printf( 1 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_HEAD)
-    			{
-    				System.out.printf( 2 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_TAIL)
-    			{
-    				System.out.printf( 3 +" ");
+    	for (int y=0; y< height; y++) {
+    		for (int x=0; x<width; x++) {
+    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY) {
+    				System.out.printf( 0 + " ");
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR) {
+    				System.out.printf( 1 + " ");
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_HEAD) {
+    				System.out.printf( 2 + " ");
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_TAIL) {
+    				System.out.printf( 3 + " ");
     			}
     		}
     		System.out.println(" "); //nowa linia
     	}
     }
+
 }
