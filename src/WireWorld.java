@@ -8,7 +8,8 @@ public class WireWorld {
 
     public static void main(String[] args) {
         InputData.processArguments(args);
-        window = new GenerationWindow();
+        generation.printToConsole();
+        window = new GenerationWindow(generation);
     }
 
 }

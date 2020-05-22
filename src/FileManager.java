@@ -60,30 +60,30 @@ public class FileManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Loaded the file correctly.");
 		} catch (FileNotFoundException i) {
 			i.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Generation gen = new Generation(width, height);
 
+		Generation gen = new Generation(width, height);
 		for (int x=0; x<width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (pregen[x][y] == 0)
 					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
-				if (pregen[x][y] == 1)
+				else if (pregen[x][y] == 1)
 					gen.grid[x][y] = Generation.FieldState.FIELD_CONDUCTOR;
-				if (pregen[x][y] == 2)
+				else if (pregen[x][y] == 2)
 					gen.grid[x][y] = Generation.FieldState.FIELD_HEAD;
-				if (pregen[x][y] == 3)
+				else if (pregen[x][y] == 3)
 					gen.grid[x][y] = Generation.FieldState.FIELD_TAIL;
 				else
 					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
 			}
 		}
-		return gen;
 
+		System.out.println("Loaded the file correctly.");
+		return gen;
 	}
 
 	// do zaimplementowania

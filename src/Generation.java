@@ -21,7 +21,20 @@ public class Generation {
     }
 
     public void extendToSize(int width, int height) { //funkcja rozszerza lub zachowuje rozmiar generacji
-        /* do zaimplementowania */
+        FieldState[][] newGrid = new FieldState[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (x < this.width && y < this.height) {
+                    newGrid[x][y] = grid[x][y];
+                } else {
+                    newGrid[x][y] = FieldState.FIELD_EMPTY;
+                    System.out.println("kappa");
+                }
+            }
+        }
+        grid = newGrid;
+        this.width = width;
+        this.height = height;
     }
 
     public void printToConsole() {

@@ -5,29 +5,55 @@ import java.awt.event.WindowEvent;
 
 public class GenerationWindow extends JFrame {
 
-    private static final int width = 800; //zmienić potem, żeby dostosowywało się do wielkości generacji
-    private static final int height = 800;
-    private static final int spacing = 3;
+    private Generation generation;
 
-    public GenerationWindow() {
+    private static final int maxWidth = 1280;
+    private static final int maxHeight = 720;
+    private static final int border = 60;
+    private static final int preferredFieldWidth = 100;
+    private static final int preferredFieldHeight = 100;
+    private static final int heightForButtons = 160;
+    private int currentWidth;
+    private int currentHeight;
+    private int currentFieldWidth;
+    private int currentFieldHeight;
+
+    public GenerationWindow(Generation gen) {
         super("Generation Window");
+        this.generation = gen;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(width, height);
+        calculateSizes();
+        this.setSize(currentWidth, currentHeight);
         this.setResizable(false);
         this.setContentPane(new DrawPane());
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Generation has been saved.");
+                System.out.println("Generation has been saved."); //do poprawki potem
             }
         });
         this.setVisible(true);
     }
 
+    private void calculateSizes() {
+        currentWidth = border * 2 + preferredFieldWidth * generation.width;
+        currentHeight = border * 2 + preferredFieldHeight * generation.height + heightForButtons;
+        currentFieldWidth = preferredFieldWidth;
+        currentFieldHeight = preferredFieldHeight;
+        if (currentWidth > maxWidth) {
+            currentWidth = maxWidth;
+            currentFieldWidth = (maxWidth - border * 2) / generation.width;
+        }
+        if (currentHeight > maxHeight) {
+            currentHeight = maxHeight;
+            currentFieldHeight = (maxHeight - border * 2 - heightForButtons) / generation.height;
+        }
+    }
+
     private class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
             g.setColor(Color.DARK_GRAY);
-            g.fillRect(0, 0, width, height);
+            g.fillRect(0, 0, currentWidth, currentHeight);
             Generation gen = WireWorld.generation;
             for (int x = 0; x < gen.width; x++) {
                 for (int y = 0; y < gen.height; y++) {
@@ -40,7 +66,7 @@ public class GenerationWindow extends JFrame {
                     } else if (gen.grid[x][y] == Generation.FieldState.FIELD_TAIL) {
                         g.setColor(Color.YELLOW);
                     }
-                    //g.fillRect();
+                    g.fillRect(border + currentFieldWidth * x, border + currentFieldHeight * y, currentFieldWidth, currentFieldHeight);
                 }
             }
         }
