@@ -25,14 +25,15 @@ public class Generation {
 
         FieldState[][] newGrid = new FieldState[width][height];
         
-        for (int y=0; y<height; y++)
+        for (int y=0; y<height; y++) //FILLING THE NEW GRID WITH FIELD_EMPTY
         	for (int x=0; x<width; x++)
         		newGrid[x][y] = FieldState.FIELD_EMPTY;
         
         int stepright = (width-this.width)/2;
         int stepdown = (height - this.height)/2;
         
-        for (int x = stepright; x < this.width+stepright; x++) {
+        for (int x = stepright; x < this.width+stepright; x++) //PLACING THE PREVIOUS GRID IN THE APROX. CENTER
+	{
             for (int y = stepdown; y < this.height+stepdown; y++)
             	{
                     newGrid[x][y] = grid[x-stepright][y-stepdown];
@@ -45,7 +46,7 @@ public class Generation {
         this.height = height;
     }
     
-    public void printToConsole()
+    public void printToConsole() //MOSTLY FOR DEBUGGING
     {
     	System.out.println(width + " " + height);
     	

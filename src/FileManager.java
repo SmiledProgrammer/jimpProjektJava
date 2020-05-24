@@ -97,10 +97,12 @@ public class FileManager {
 
 	public static void saveGenerationToFile(Generation gen) {
 		
-		if(!savedFilePath.endsWith(".gen")) 
-			System.out.println("The file doesn't end with .gen. Aborting save");
+		if(!savedFilePath.endsWith(".gen")) {
+			System.out.println("The file doesn't end with .gen. Adding .gen");
+		//	savedFilePath.append(".gen");
 		//to powinno byæ sprawdzane na etapie samego wczytywania zmiennych do programu
-		
+		}
+
 		try { 
 			FileWriter fw = new FileWriter(savedFilePath);
 			
