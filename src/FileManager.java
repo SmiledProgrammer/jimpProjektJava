@@ -16,16 +16,14 @@ public class FileManager {
 		int width = -1;
 		int height = -1;
 
-		if (!(filepath.endsWith(".gen")))
-			{
+		if (!(filepath.endsWith(".gen"))) {
 			System.err.println("Nieprawid�owe rozszerzenie pliku!");
 			return null;
-			}
-		else try {
+		} else try {
 			FileReader fr = new FileReader(filepath);
 			BufferedReader br = new BufferedReader(fr);
 
-			String line = null; 
+			String line = null;
 			String[] arguments = null;
 			int i = 0;
 			while ( (line = br.readLine() ) != null) {
@@ -41,11 +39,11 @@ public class FileManager {
 					}
 					i++;
 				} else {
-					
+
 					arguments = line.split(" ");
-					
+
 					//for (int j=0; j<arguments.length; j++) System.out.println(arguments[j]);
- 
+
 					for (int x = 0; x < width; x++) {
 						try {
 							pregen[x][i - 1] = Integer.parseInt(arguments[x].toString());
@@ -63,32 +61,30 @@ public class FileManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} catch (FileNotFoundException i) {
 			i.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+
 		Generation gen = new Generation(width, height);
-		
-		
-		for (int x=0; x<width; x++)
-			for (int y=0; y<height; y++)
-			{
+		for (int x=0; x<width; x++) {
+			for (int y = 0; y < height; y++) {
 				if (pregen[x][y] == 0)
 					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
-				if (pregen[x][y] == 1)
+				else if (pregen[x][y] == 1)
 					gen.grid[x][y] = Generation.FieldState.FIELD_CONDUCTOR;
-				if (pregen[x][y] == 2)
+				else if (pregen[x][y] == 2)
 					gen.grid[x][y] = Generation.FieldState.FIELD_HEAD;
-				if (pregen[x][y] == 3)
+				else if (pregen[x][y] == 3)
 					gen.grid[x][y] = Generation.FieldState.FIELD_TAIL;
-				else 
+				else
 					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
 			}
-				
-		return gen;
+		}
 
+		System.out.println("Loaded the file correctly.");
+		return gen;
 	}
 
 	// do zaimplementowania

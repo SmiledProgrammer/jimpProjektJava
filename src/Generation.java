@@ -33,7 +33,7 @@ public class Generation {
         int stepdown = (height - this.height)/2;
         
         for (int x = stepright; x < this.width+stepright; x++) //PLACING THE PREVIOUS GRID IN THE APROX. CENTER
-	{
+            {
             for (int y = stepdown; y < this.height+stepdown; y++)
             	{
                     newGrid[x][y] = grid[x-stepright][y-stepdown];
