@@ -22,7 +22,30 @@ public class Generation {
     }
 
     public void extendToSize(int width, int height) { //funkcja rozszerza lub zachowuje rozmiar generacji
+<<<<<<< Updated upstream
         /* do zaimplementowania */
+=======
+        FieldState[][] newGrid = new FieldState[width][height];
+        
+        for (int y=0; y<height; y++)
+        	for (int x=0; x<width; x++)
+        		newGrid[x][y] = FieldState.FIELD_EMPTY;
+        
+        int stepright = (width-this.width)/2;
+        int stepdown = (height - this.height)/2;
+        
+        for (int x = stepright; x < this.width+stepright; x++) {
+            for (int y = stepdown; y < this.height+stepdown; y++)
+            	{
+                    newGrid[x][y] = grid[x-stepright][y-stepdown];
+                }
+            }
+        
+        
+        grid = newGrid;
+        this.width = width;
+        this.height = height;
+>>>>>>> Stashed changes
     }
 
     public void printToConsole()
@@ -53,4 +76,14 @@ public class Generation {
     		System.out.println(" "); //nowa linia
     	}
     }
+<<<<<<< Updated upstream
+=======
+    
+    public void calculateNextGeneration()
+    {
+    	
+    }
+    
+
+>>>>>>> Stashed changes
 }

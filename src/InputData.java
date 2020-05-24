@@ -5,7 +5,7 @@ public class InputData {
     public static void processArguments(String[] args) {
         boolean fileToOpenSpecified = false;
         boolean newFileSpecified = false;
-        int width = 0;
+        int width = 0; 
         int height = 0;
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--open")) {
