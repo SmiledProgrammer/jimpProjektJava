@@ -60,5 +60,5 @@ public class WireWorld implements Runnable{
 		
 	}
  	*/
->>>>>>> Stashed changes
+
 }

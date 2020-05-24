@@ -18,7 +18,7 @@ public class FileManager {
 
 		if (!(filepath.endsWith(".gen")))
 			{
-			System.err.println("Nieprawid³owe rozszerzenie pliku!");
+			System.err.println("Nieprawidï¿½owe rozszerzenie pliku!");
 			return null;
 			}
 		else try {
@@ -99,8 +99,8 @@ public class FileManager {
 		
 		if(!savedFilePath.endsWith(".gen")) {
 			System.out.println("The file doesn't end with .gen. Adding .gen");
-		//	savedFilePath.append(".gen");
-		//to powinno byæ sprawdzane na etapie samego wczytywania zmiennych do programu
+			savedFilePath.concat(".gen");
+		//to powinno byï¿½ sprawdzane na etapie samego wczytywania zmiennych do programu
 		}
 
 		try { 
