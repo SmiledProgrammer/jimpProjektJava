@@ -8,19 +8,14 @@ public class WireWorld implements Runnable{
 	private static final int delay = 800; //opoznienie - szybkosc odswiezania
 	
     public static Generation generation;
-<<<<<<< Updated upstream
-=======
     public static int numberOfGenerations = 10;
     public static GenerationWindow window;
->>>>>>> Stashed changes
+
 
     public static void main(String[] args) {
         WireWorld world = new WireWorld();
         InputData.processArguments(args);
         generation.printToConsole();
-<<<<<<< Updated upstream
-    }
-=======
         window = new GenerationWindow(generation);
         
         for (int i = 0; i< numberOfGenerations; i++)
