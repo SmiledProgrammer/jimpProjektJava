@@ -87,16 +87,13 @@ public class FileManager {
 		return gen;
 	}
 
-	// do zaimplementowania
-	// + sprawdzać czy plik ma rozszerzenie .gen
-	// do usunięcia potem (dodane, żeby się kompilowało)
 
 	public static void saveGenerationToFile(Generation gen) {
 		
 		if(!savedFilePath.endsWith(".gen")) {
 			System.out.println("The file doesn't end with .gen. Adding .gen");
 			savedFilePath.concat(".gen");
-		//to powinno by� sprawdzane na etapie samego wczytywania zmiennych do programu
+		//to powinno by� sprawdzane na etapie samego wczytywania zmiennych do programu (chyba)
 		}
 
 		try { 
@@ -126,8 +123,7 @@ public class FileManager {
 			System.out.println("Couldn't save the file!");
 		}
 				
-		// do zaimplementowania
-		// zapisywanie do pliku: savedFilePath + ".gen"
+
 	}
 
 }
