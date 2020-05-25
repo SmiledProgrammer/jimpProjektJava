@@ -6,8 +6,9 @@ public class Generation {
     public enum FieldState { FIELD_EMPTY, FIELD_CONDUCTOR, FIELD_HEAD, FIELD_TAIL }
 
     public FieldState[][] grid;
-    public int numberOfGenerations;
+    public int generationNumber = 0; //zmienilem nazwe calkiem
     public int width, height;
+    public boolean isGenerationDead = false;
 
     public Generation() {
         width = defaultGenerationWidth;
@@ -77,7 +78,12 @@ public class Generation {
 
     public void calculateNextGeneration()
     {
-    	
+    	ApplyLogic n = new ApplyLogic(this);
+    	grid = n.newGrid;
+    	generationNumber++;
+
+    	if (n.isGenerationDead == true)
+    	    isGenerationDead = true;
     }
 
 }

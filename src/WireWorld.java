@@ -5,10 +5,10 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 public class WireWorld implements Runnable{
 	
 	//private static Thread runThread;
-	private static final int delay = 800; //opoznienie - szybkosc odswiezania
+	private static final int delay = 500; //opoznienie - szybkosc odswiezania
 	
     public static Generation generation;
-    public static int numberOfGenerations = 10;
+    public static int numberOfGenerations = 30;
     public static GenerationWindow window;
 
 
@@ -17,22 +17,25 @@ public class WireWorld implements Runnable{
         InputData.processArguments(args);
         generation.printToConsole();
         window = new GenerationWindow(generation);
-        
-        for (int i = 0; i< numberOfGenerations; i++)
-        {
-        	try {
-        		Thread.sleep(delay);
-        	} catch (InterruptedException e) {
-        		// TODO Auto-generated catch block
-			e.printStackTrace();
-        	}
 
-        	generation.grid[i+1][i+3] = Generation.FieldState.FIELD_HEAD;
-        	//generation.calculateNextGeneration();
-        	window.getContentPane().repaint();
+
+        for (int i = 0; i < numberOfGenerations; i++) {
+            if ( generation.isGenerationDead == false ) {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                generation.calculateNextGeneration();
+                window.getContentPane().repaint();
+            } else break;
         }
-        if (FileManager.savedFilePath != null)
-        	FileManager.saveGenerationToFile(generation);
+        System.out.println("Stopped at generation #" + generation.generationNumber);
+        if ( FileManager.savedFilePath != null )
+            FileManager.saveGenerationToFile(generation);
+
     }
 
 	@Override

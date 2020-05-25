@@ -55,7 +55,7 @@ public class GenerationWindow extends JFrame {
     public class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
         	
-        	generation.printToConsole(); //debugging
+        	//generation.printToConsole(); //debugging
         	
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, currentWidth, currentHeight);
