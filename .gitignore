@@ -1,2 +1,9 @@
-
-blabla_small.gen
+/bin/
+*.gen
+blabla.gen
+blabla.gen
+blabla.gen
+.project
+.classpath
+blabla.gen
+*.gen

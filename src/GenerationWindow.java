@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -7,8 +9,8 @@ public class GenerationWindow extends JFrame {
 
     private Generation generation;
 
-    private static final int maxWidth = 1280;
-    private static final int maxHeight = 720;
+    private static final int maxWidth = 880;
+    private static final int maxHeight = 1040;
     private static final int border = 60;
     private static final int preferredFieldWidth = 100;
     private static final int preferredFieldHeight = 100;
@@ -32,7 +34,7 @@ public class GenerationWindow extends JFrame {
                 System.out.println("Generation has been saved."); //do poprawki potem
             }
         });
-        this.setVisible(true);
+        this.setVisible(true); 
     }
 
     private void calculateSizes() {
@@ -46,12 +48,15 @@ public class GenerationWindow extends JFrame {
         }
         if (currentHeight > maxHeight) {
             currentHeight = maxHeight;
-            currentFieldHeight = (maxHeight - border * 2 - heightForButtons) / generation.height;
+            currentFieldHeight = (maxHeight - border * 2  - heightForButtons) / generation.height;
         }
     }
 
-    private class DrawPane extends JPanel {
+    public class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
+        	
+        	//generation.printToConsole(); //debugging
+        	
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, currentWidth, currentHeight);
             Generation gen = WireWorld.generation;

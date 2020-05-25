@@ -26,15 +26,15 @@ public class InputData {
                     int number = -1;
                     try {
                         number = Integer.parseInt(args[++i]);
-                        } catch (NumberFormatException ex) {
+                    } catch (NumberFormatException ex) {
                         System.err.println("String \"" + args[i] + "\" couldn't be parsed to an integer. Ignoring the argument.");
-                        }
+                    }
                     if (number >= 1) {
-                            WireWorld.numberOfGenerations = number;
-                            System.out.println("Number of generations loaded correctly (" + number + ").");
-                        } else {
-                            System.out.println("Number of generations is smaller than 0 (" + number + "). Ignoring the argument.");
-                        }
+                        WireWorld.numberOfGenerations = number;
+                        System.out.println("Number of generations loaded correctly (" + number + ").");
+                    } else {
+                        System.out.println("Number of generations is smaller than 0 (" + number + "). Ignoring the argument.");
+                    }
                 } else {
                     System.err.println("Number of generations wasn't specified after \"--generation\".");
                 }

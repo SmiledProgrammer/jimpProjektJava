@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -16,13 +17,13 @@ public class FileManager {
 		int height = -1;
 
 		if (!(filepath.endsWith(".gen"))) {
-			System.err.println("Nieprawid³owe rozszerzenie pliku!");
+			System.err.println("Nieprawidï¿½owe rozszerzenie pliku!");
 			return null;
 		} else try {
 			FileReader fr = new FileReader(filepath);
 			BufferedReader br = new BufferedReader(fr);
 
-			String line = null; 
+			String line = null;
 			String[] arguments = null;
 			int i = 0;
 			while ( (line = br.readLine() ) != null) {
@@ -38,11 +39,11 @@ public class FileManager {
 					}
 					i++;
 				} else {
-					
+
 					arguments = line.split(" ");
-					
+
 					//for (int j=0; j<arguments.length; j++) System.out.println(arguments[j]);
- 
+
 					for (int x = 0; x < width; x++) {
 						try {
 							pregen[x][i - 1] = Integer.parseInt(arguments[x].toString());
@@ -87,10 +88,44 @@ public class FileManager {
 	}
 
 	// do zaimplementowania
-	// + sprawdzaæ czy plik ma rozszerzenie .gen
-	// do usuniêcia potem (dodane, ¿eby siê kompilowa³o)
+	// + sprawdzaÄ‡ czy plik ma rozszerzenie .gen
+	// do usuniÄ™cia potem (dodane, Å¼eby siÄ™ kompilowaÅ‚o)
 
-	public static void saveGenerationToFile() {
+	public static void saveGenerationToFile(Generation gen) {
+		
+		if(!savedFilePath.endsWith(".gen")) {
+			System.out.println("The file doesn't end with .gen. Adding .gen");
+			savedFilePath.concat(".gen");
+		//to powinno byï¿½ sprawdzane na etapie samego wczytywania zmiennych do programu
+		}
+
+		try { 
+			FileWriter fw = new FileWriter(savedFilePath);
+			
+			fw.write(gen.width + " " + gen.height);
+			fw.write("\n");
+			
+			for (int i=0; i<gen.height; i++) {
+				for (int j=0; j<gen.width; j++) {
+	    			if (gen.grid[j][i] == Generation.FieldState.FIELD_EMPTY) {
+	    				fw.write( 0 + " ");
+	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_CONDUCTOR) {
+	    				fw.write( 1 + " ");
+	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_HEAD) {
+	    				fw.write( 2 + " ");
+	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_TAIL) {
+	    				fw.write( 3 + " ");
+	    			}
+	    		}
+				fw.write("\n"); //nowa linia
+			}
+		
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Couldn't save the file!");
+		}
+				
 		// do zaimplementowania
 		// zapisywanie do pliku: savedFilePath + ".gen"
 	}
