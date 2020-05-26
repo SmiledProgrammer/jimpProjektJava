@@ -56,8 +56,8 @@ public class ApplyLogic extends Generation {
     {
         if ( x < 0 || x >=width || y < 0 || y >= height ) {
             return FieldState.FIELD_EMPTY; //jezeli poza granicami, to przyjmujemy, ze to FIELD_EMPTY
-        else
-            return grid[x][y];
+        }
+        else return grid[x][y];
     }
 
     public int getNeighboursOfState(FieldState[][] grid, FieldState state, int x, int y) {
