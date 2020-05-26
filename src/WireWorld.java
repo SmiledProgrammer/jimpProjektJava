@@ -2,7 +2,7 @@ import java.sql.Savepoint;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
-public class WireWorld implements Runnable{
+public class WireWorld implements Runnable {
 	
 	//private static Thread runThread;
 	private static final int delay = 500; //opoznienie - szybkosc odswiezania
@@ -18,13 +18,11 @@ public class WireWorld implements Runnable{
         generation.printToConsole();
         window = new GenerationWindow(generation);
 
-
         for (int i = 0; i < numberOfGenerations; i++) {
             if ( generation.isGenerationDead == false ) {
                 try {
                     Thread.sleep(delay);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
