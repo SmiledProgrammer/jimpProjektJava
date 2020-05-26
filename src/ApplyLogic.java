@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class ApplyLogic extends Generation {
 
     public  FieldState[][] grid;
@@ -55,12 +56,11 @@ public class ApplyLogic extends Generation {
     {
         if ( x < 0 || x >=width || y < 0 || y >= height ) {
             return FieldState.FIELD_EMPTY; //jezeli poza granicami, to przyjmujemy, ze to FIELD_EMPTY
-        }
-        else return grid[x][y];
+        else
+            return grid[x][y];
     }
 
-    public int getNeighboursOfState(FieldState[][] grid, FieldState state, int x, int y)
-    {
+    public int getNeighboursOfState(FieldState[][] grid, FieldState state, int x, int y) {
         int neighbours = 0;
         if ( getCell(grid, x - 1, y - 1) == state ) neighbours++;
         if ( getCell(grid, x, y - 1) == state ) neighbours++;
@@ -72,17 +72,16 @@ public class ApplyLogic extends Generation {
         if ( getCell(grid, x + 1, y + 1) == state ) neighbours++;
 
         return neighbours;
-
     }
 
-    public boolean checkIfGenerationIsDead()
-    {
-        for (int y=0; y<height; y++)
-            for (int x=0; x<width; x++)
-                if ( (grid[x][y] == FieldState.FIELD_TAIL) || (grid[x][y] == FieldState.FIELD_HEAD))
+    public boolean checkIfGenerationIsDead() {
+        for (int y=0; y<height; y++) {
+            for (int x = 0; x < width; x++) {
+                if ((grid[x][y] == FieldState.FIELD_TAIL) || (grid[x][y] == FieldState.FIELD_HEAD))
                     return false;
-
-                return true;
+            }
+        }
+        return true;
     }
 
 }
