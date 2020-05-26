@@ -79,7 +79,7 @@ public class Generation {
     public void calculateNextGeneration()
     {
     	ApplyLogic n = new ApplyLogic(this);
-    	grid = n.newGrid;
+    	grid = n.grid;
     	generationNumber++;
 
     	if (n.isGenerationDead == true)
