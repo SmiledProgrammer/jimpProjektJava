@@ -1,48 +1,40 @@
 import java.awt.*;
 
-public class PlayButton implements WindowComponent {
+public class PlayButton extends Button {
 
-    private final static int width = 200;
-    private final static int height = 100;
-    private GenerationWindow window;
-    private int x, y;
+    public final static int width = 160;
+    public final static int height = 100;
 
     private boolean playing;
 
     public PlayButton(GenerationWindow window, int x, int y) {
-        this.window = window;
-        this.x = x;
-        this.y = y;
+        super(window, x, y, width, height);
+        super.addAction(ba);
+        pause();
+    }
+
+    public void pause() {
         playing = false;
+        setText("Play", 56, 23, 70);
+        defaultColor = new Color(0, 80, 0);
+        hoverColor = new Color(0, 130, 0);
     }
 
-    private boolean mouseOnButton() {
-        Point p = window.getContentPane().getMousePosition();
-        if (p != null)
-            return (p.x >= x && p.x <= x + width && p.y >= y && p.y < y + height);
-        return false;
+    public void play() {
+        playing = true;
+        setText("Pause", 48, 10, 67);
+        defaultColor = new Color(0, 204, 0);
+        hoverColor = new Color(0, 255, 0);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        Color c = mouseOnButton() ? new Color(153, 153, 255) : new Color(51, 51, 255);
-        g.setColor(c);
-        g.fillRect(x, y, width, height);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("czy to co tu napisze naprawde ma znaczenie?", Font.BOLD, 56));
-        if (!playing)
-            g.drawString("Play", x + 43, y + 70);
-        else
-            g.drawString("Pause", x + 18, y + 70);
-    }
-
-    @Override
-    public void clickAction() {
-        if (mouseOnButton()) {
+    private ButtonAction ba = new ButtonAction() {
+        @Override
+        public void clickAction() {
             if (playing)
-                playing = false;
+                pause();
             else
-                playing = true;
+                play();
         }
-    }
+    };
+
 }

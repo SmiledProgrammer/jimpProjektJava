@@ -21,7 +21,12 @@ public class GenerationWindow extends JFrame implements MouseListener {
     private int currentHeight;
     private int currentFieldWidth;
     private int currentFieldHeight;
-    private PlayButton playButton;
+    private int buttonsSpacing;
+
+    private Button playButton;
+    private Button nextButton;
+    private Button gateButton;
+    private Button saveButton;
 
     public GenerationWindow(Generation gen) {
         super("Generation Window");
@@ -43,6 +48,18 @@ public class GenerationWindow extends JFrame implements MouseListener {
         int pauseButtonY = border + currentFieldHeight * generation.height + (heightForButtons - border) / 2;
         playButton = new PlayButton(this, pauseButtonX, pauseButtonY);
 
+        int nextButtonX = border + PlayButton.width + buttonsSpacing;
+        int nextButtonY = border + currentFieldHeight * generation.height + (heightForButtons - border) / 2;
+        nextButton = new NextButton(this, nextButtonX, nextButtonY);
+
+        int gateButtonX = border + PlayButton.width + buttonsSpacing + NextButton.width + buttonsSpacing;
+        int gateButtonY = border + currentFieldHeight * generation.height + (heightForButtons - border) / 2;
+        gateButton = new GateButton(this, gateButtonX, gateButtonY);
+
+        int saveButtonX = border + PlayButton.width + buttonsSpacing + NextButton.width + buttonsSpacing + GateButton.width + buttonsSpacing;
+        int saveButtonY = border + currentFieldHeight * generation.height + (heightForButtons - border) / 2;
+        saveButton = new SaveButton(this, saveButtonX, saveButtonY);
+
         this.setVisible(true);
     }
 
@@ -59,6 +76,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
             currentHeight = maxHeight;
             currentFieldHeight = (maxHeight - border * 2  - heightForButtons) / generation.height;
         }
+        buttonsSpacing = (currentFieldWidth * generation.height - PlayButton.width - NextButton.width - GateButton.width - SaveButton.width) / 3;
     }
 
     private void paintGenerationGrid(Graphics g) {
@@ -92,6 +110,9 @@ public class GenerationWindow extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         playButton.clickAction();
+        nextButton.clickAction();
+        gateButton.clickAction();
+        saveButton.clickAction();
     }
 
     public class DrawPane extends JPanel {
@@ -101,6 +122,9 @@ public class GenerationWindow extends JFrame implements MouseListener {
         	
             paintGenerationGrid(g);
             playButton.paint(g);
+            nextButton.paint(g);
+            gateButton.paint(g);
+            saveButton.paint(g);
         }
     }
 
