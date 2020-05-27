@@ -17,6 +17,8 @@ public class NextButton extends Button {
         @Override
         public void clickAction() {
             //tworzenie następnej generacji
+
+            WireWorld.step_to_next = true;
         }
     };
 }

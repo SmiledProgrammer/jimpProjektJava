@@ -12,30 +12,47 @@ public class WireWorld implements Runnable {
     public static int numberOfGenerations = 30;
     public static GenerationWindow window;
 
+    public static boolean playing = false;
+    public static boolean step_to_next = false;
+
 
     public static void main(String[] args) {
         WireWorld world = new WireWorld();
         InputData.processArguments(args);
         generation.printToConsole();
         window = new GenerationWindow(generation);
-
-        for (int i = 0; i < numberOfGenerations; i++) {
-            if ( generation.isGenerationDead == false ) {
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                generation.calculateNextGeneration();
-                window.getContentPane().revalidate();
-                window.getContentPane().repaint();
-            } else break;
-        }
+        
 
         while (true) {
-            window.getContentPane().revalidate();
-            window.getContentPane().repaint();
+            if (playing) {
+                if ( generation.isGenerationDead == false ) {
+
+                    generation.calculateNextGeneration();
+                    window.getContentPane().revalidate();
+                    window.getContentPane().repaint();
+
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            } else if (step_to_next)  //it has to be pause (playing == false) to perform this
+            {
+                if ( generation.isGenerationDead == false ) {
+
+                    generation.calculateNextGeneration();
+                    window.getContentPane().revalidate();
+                    window.getContentPane().repaint();
+                    step_to_next = false; //only one step
+                }
+            }
+
+            else {
+                window.getContentPane().revalidate();
+                window.getContentPane().repaint();
+            }
         }
 /*
         System.out.println("Stopped at generation #" + generation.generationNumber);
@@ -49,24 +66,5 @@ public class WireWorld implements Runnable {
 		
 	}
 
-/*	@Override
-	public void run() {
-		while (true)
-		{
-			generation.calculateNextGeneration();
-			window.getContentPane().repaint();
-			i++;
-			if (i==1) 
-				generation.grid[3][5] = Generation.FieldState.FIELD_HEAD;
-			try {
-				Thread.currentThread();
-				Thread.sleep(delay);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
- 	*/
 
 }
