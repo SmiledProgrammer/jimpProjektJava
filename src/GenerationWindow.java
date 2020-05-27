@@ -2,10 +2,12 @@ import javax.swing.*;
 
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GenerationWindow extends JFrame {
+public class GenerationWindow extends JFrame implements MouseListener {
 
     private Generation generation;
 
@@ -19,6 +21,7 @@ public class GenerationWindow extends JFrame {
     private int currentHeight;
     private int currentFieldWidth;
     private int currentFieldHeight;
+    private PlayButton playButton;
 
     public GenerationWindow(Generation gen) {
         super("Generation Window");
@@ -34,7 +37,13 @@ public class GenerationWindow extends JFrame {
                 System.out.println("Generation has been saved."); //do poprawki potem
             }
         });
-        this.setVisible(true); 
+        this.addMouseListener(this);
+
+        int pauseButtonX = border;
+        int pauseButtonY = border + currentFieldHeight * generation.height + (heightForButtons - border) / 2;
+        playButton = new PlayButton(this, pauseButtonX, pauseButtonY);
+
+        this.setVisible(true);
     }
 
     private void calculateSizes() {
@@ -52,28 +61,46 @@ public class GenerationWindow extends JFrame {
         }
     }
 
+    private void paintGenerationGrid(Graphics g) {
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(0, 0, currentWidth, currentHeight);
+        Generation gen = WireWorld.generation;
+        for (int x = 0; x < gen.width; x++) {
+            for (int y = 0; y < gen.height; y++) {
+                if (gen.grid[x][y] == Generation.FieldState.FIELD_EMPTY) {
+                    g.setColor(Color.WHITE);
+                } else if (gen.grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR) {
+                    g.setColor(Color.BLACK);
+                } else if (gen.grid[x][y] == Generation.FieldState.FIELD_HEAD) {
+                    g.setColor(Color.RED);
+                } else if (gen.grid[x][y] == Generation.FieldState.FIELD_TAIL) {
+                    g.setColor(Color.YELLOW);
+                }
+                g.fillRect(border + currentFieldWidth * x, border + currentFieldHeight * y, currentFieldWidth, currentFieldHeight);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) { }
+    @Override
+    public void mouseReleased(MouseEvent e) { }
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+    @Override
+    public void mouseExited(MouseEvent e) { }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        playButton.clickAction();
+    }
+
     public class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
         	
         	//generation.printToConsole(); //debugging
         	
-            g.setColor(Color.DARK_GRAY);
-            g.fillRect(0, 0, currentWidth, currentHeight);
-            Generation gen = WireWorld.generation;
-            for (int x = 0; x < gen.width; x++) {
-                for (int y = 0; y < gen.height; y++) {
-                    if (gen.grid[x][y] == Generation.FieldState.FIELD_EMPTY) {
-                        g.setColor(Color.WHITE);
-                    } else if (gen.grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR) {
-                        g.setColor(Color.BLACK);
-                    } else if (gen.grid[x][y] == Generation.FieldState.FIELD_HEAD) {
-                        g.setColor(Color.RED);
-                    } else if (gen.grid[x][y] == Generation.FieldState.FIELD_TAIL) {
-                        g.setColor(Color.YELLOW);
-                    }
-                    g.fillRect(border + currentFieldWidth * x, border + currentFieldHeight * y, currentFieldWidth, currentFieldHeight);
-                }
-            }
+            paintGenerationGrid(g);
+            playButton.paint(g);
         }
     }
 

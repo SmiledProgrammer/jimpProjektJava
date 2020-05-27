@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.sql.Savepoint;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
@@ -27,13 +28,19 @@ public class WireWorld implements Runnable {
                 }
 
                 generation.calculateNextGeneration();
+                window.getContentPane().revalidate();
                 window.getContentPane().repaint();
             } else break;
         }
+
+        while (true) {
+            window.getContentPane().revalidate();
+            window.getContentPane().repaint();
+        }
+/*
         System.out.println("Stopped at generation #" + generation.generationNumber);
         if ( FileManager.savedFilePath != null )
-            FileManager.saveGenerationToFile(generation);
-
+            FileManager.saveGenerationToFile(generation);*/
     }
 
 	@Override

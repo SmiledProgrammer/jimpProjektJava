@@ -1,5 +1,8 @@
+import java.awt.*;
+
 public interface WindowComponent {
 
-    void paint();
+    void paint(Graphics g);
+    void clickAction();
 
 }
