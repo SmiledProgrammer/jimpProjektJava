@@ -17,7 +17,13 @@ public class InputData {
             } else if (args[i].equals("--save")) {
                 if (i + 1 < args.length) {
                     FileManager.savedFilePath = args[++i];
-                    System.out.println("WireWorld will be saved in filepath \"" + args[i] + ".gen\".");
+                    //wstawilem to rowniez tutaj
+                    if(!FileManager.savedFilePath.endsWith(".gen")) {
+                        System.out.println("The filename to save doesn't end with .gen. Adding .gen");
+                        FileManager.savedFilePath = FileManager.savedFilePath.concat(".gen");
+                    }
+
+                    System.out.println("WireWorld will be saved in filepath \"" + FileManager.savedFilePath + "\".");
                 } else {
                     System.err.println("Filepath to save file in wasn't specified after \"--save\". Generation will not be saved.");
                 }
@@ -70,9 +76,11 @@ public class InputData {
         } else if (fileToOpenSpecified && !newFileSpecified) {
             System.out.println("Loading the generation from file \"" + fileToOpenName + "\".");
             WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
+            FileManager.openedFilePath = fileToOpenName;
         } else if (fileToOpenSpecified && newFileSpecified) {
             System.out.println("Loading the generation from file \"" + fileToOpenName + "\" and extending its size to the new specified size.");
             WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
+            FileManager.openedFilePath = fileToOpenName;
             WireWorld.generation.extendToSize(width, height);
         }
     }

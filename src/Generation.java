@@ -83,7 +83,9 @@ public class Generation {
         replaceCells2(grid,FieldState.FIELD_HEAD, FieldState.FIELD_TAIL);
         calculateHeads2();
         applyChanges(grid);
+        generationNumber++;
         isGenerationDead = checkIfGenerationIsDead();
+
         
 
     }

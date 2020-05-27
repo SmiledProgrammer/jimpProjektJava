@@ -14,6 +14,7 @@ public class WireWorld implements Runnable {
 
     public static boolean playing = false;
     public static boolean step_to_next = false;
+    public static boolean fileHasBeenSaved = false;
 
 
     public static void main(String[] args) {
@@ -28,6 +29,7 @@ public class WireWorld implements Runnable {
                 if ( generation.isGenerationDead == false ) {
 
                     generation.calculateNextGeneration();
+                    System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
                     window.getContentPane().repaint();
 
@@ -38,11 +40,11 @@ public class WireWorld implements Runnable {
                     }
 
                 }
-            } else if (step_to_next)  //it has to be pause (playing == false) to perform this
-            {
+            } else if (step_to_next) {         //it has to be pause (playing == false) to perform this
                 if ( generation.isGenerationDead == false ) {
 
                     generation.calculateNextGeneration();
+                    System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
                     window.getContentPane().repaint();
                     step_to_next = false; //only one step
@@ -53,11 +55,22 @@ public class WireWorld implements Runnable {
                 window.getContentPane().revalidate();
                 window.getContentPane().repaint();
             }
+            if (generation.isGenerationDead == true)
+                stopAndSave();
         }
-/*
-        System.out.println("Stopped at generation #" + generation.generationNumber);
-        if ( FileManager.savedFilePath != null )
-            FileManager.saveGenerationToFile(generation);*/
+
+    }
+
+
+
+    private static void stopAndSave()
+    {
+        if (fileHasBeenSaved == false) {
+            System.out.println("Stopped at generation #" + generation.generationNumber);
+            if ( FileManager.savedFilePath != null )
+                FileManager.saveGenerationToFile(generation);
+            fileHasBeenSaved = true;
+        }
     }
 
 	@Override

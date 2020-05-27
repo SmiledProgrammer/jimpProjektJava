@@ -9,6 +9,7 @@ import java.io.IOException;
 public class FileManager {
 
 	public static String savedFilePath;
+	public static String openedFilePath;
 
 	public static Generation loadGenerationFromFile(String filepath) {
 
@@ -92,8 +93,8 @@ public class FileManager {
 		
 		if(!savedFilePath.endsWith(".gen")) {
 			System.out.println("The filename doesn't end with .gen. Adding .gen");
-			savedFilePath.concat(".gen");
-		//to powinno być sprawdzane na etapie samego wczytywania zmiennych do programu (chyba)
+			savedFilePath = savedFilePath.concat(".gen");
+
 		}
 
 		try {
@@ -118,10 +119,13 @@ public class FileManager {
 			}
 
 			fw.close();
+			System.out.println("File successfully saved (" + savedFilePath +").");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Couldn't save the file!");
 		}
+
+
 	}
 
 }

@@ -13,10 +13,32 @@ public class SaveButton extends Button {
         hoverColor = new Color(255, 90, 90);
     }
 
-    private ButtonAction ba = new ButtonAction() {
+    private final ButtonAction ba = new ButtonAction() {
         @Override
         public void clickAction() {
             //zapisywanie pliku
+            String tmp_savedFilePath = FileManager.savedFilePath;
+            String name_addition = "_generation" + WireWorld.generation.generationNumber + "snapshot.gen"; //np. blabla_generation23snapshot.gen
+
+            if ( FileManager.savedFilePath != null ) {
+                if ( FileManager.savedFilePath.endsWith(".gen") )
+                    FileManager.savedFilePath = FileManager.savedFilePath.replaceFirst(".gen", name_addition);
+                else
+                    FileManager.savedFilePath = FileManager.savedFilePath.concat(name_addition);
+
+                FileManager.saveGenerationToFile(WireWorld.generation);
+                FileManager.savedFilePath = tmp_savedFilePath;
+            }
+            else {
+                if ( FileManager.savedFilePath.endsWith(".gen") )
+                    FileManager.savedFilePath = FileManager.openedFilePath.replaceFirst(".gen", name_addition);
+                else
+                    FileManager.savedFilePath = FileManager.openedFilePath.concat(name_addition);
+
+                FileManager.saveGenerationToFile(WireWorld.generation);
+                FileManager.savedFilePath = tmp_savedFilePath;
+            }
+
         }
     };
 
