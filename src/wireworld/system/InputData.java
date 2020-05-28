@@ -1,3 +1,5 @@
+package wireworld.system;
+
 public class InputData {
 
     public static void processArguments(String[] args) {
@@ -23,9 +25,9 @@ public class InputData {
                         FileManager.savedFilePath = FileManager.savedFilePath.concat(".gen");
                     }
 
-                    System.out.println("WireWorld will be saved in filepath \"" + FileManager.savedFilePath + "\".");
+                    System.out.println("wireworld.system.WireWorld will be saved in filepath \"" + FileManager.savedFilePath + "\".");
                 } else {
-                    System.err.println("Filepath to save file in wasn't specified after \"--save\". Generation will not be saved.");
+                    System.err.println("Filepath to save file in wasn't specified after \"--save\". wireworld.system.Generation will not be saved.");
                 }
             } else if (args[i].equals("--generate")) {
                 if (i + 1 < args.length) {
@@ -50,7 +52,7 @@ public class InputData {
                         width = Integer.parseInt(args[++i]);
                         height = Integer.parseInt(args[++i]);
                         if (width >= 1 && height >= 1) {
-                            System.out.println("Generation size loaded correctly (" + width + "x" + height + ").");
+                            System.out.println("wireworld.system.Generation size loaded correctly (" + width + "x" + height + ").");
                             newFileSpecified = true;
                         } else if (width < 1) {
                             System.out.println("Width is smaller than 0 (" + width + "). Ignoring the argument.");

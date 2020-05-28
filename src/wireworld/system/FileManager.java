@@ -1,10 +1,12 @@
+package wireworld.system;
+
+import wireworld.system.Generation;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-
 
 public class FileManager {
 
@@ -72,15 +74,15 @@ public class FileManager {
 		for (int x=0; x<width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (pregen[x][y] == 0)
-					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
+					gen.setCell(Generation.FieldState.FIELD_EMPTY, x, y);
 				else if (pregen[x][y] == 1)
-					gen.grid[x][y] = Generation.FieldState.FIELD_CONDUCTOR;
+					gen.setCell(Generation.FieldState.FIELD_CONDUCTOR, x, y);
 				else if (pregen[x][y] == 2)
-					gen.grid[x][y] = Generation.FieldState.FIELD_HEAD;
+					gen.setCell(Generation.FieldState.FIELD_HEAD, x, y);
 				else if (pregen[x][y] == 3)
-					gen.grid[x][y] = Generation.FieldState.FIELD_TAIL;
+					gen.setCell(Generation.FieldState.FIELD_TAIL, x, y);
 				else
-					gen.grid[x][y] = Generation.FieldState.FIELD_EMPTY;
+					gen.setCell(Generation.FieldState.FIELD_EMPTY, x, y);
 			}
 		}
 
@@ -105,13 +107,13 @@ public class FileManager {
 			
 			for (int i=0; i<gen.height; i++) {
 				for (int j=0; j<gen.width; j++) {
-	    			if (gen.grid[j][i] == Generation.FieldState.FIELD_EMPTY) {
+	    			if (gen.getCell(j, i) == Generation.FieldState.FIELD_EMPTY) {
 	    				fw.write( 0 + " ");
-	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_CONDUCTOR) {
+	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_CONDUCTOR) {
 	    				fw.write( 1 + " ");
-	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_HEAD) {
+	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_HEAD) {
 	    				fw.write( 2 + " ");
-	    			} else if (gen.grid[j][i] == Generation.FieldState.FIELD_TAIL) {
+	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_TAIL) {
 	    				fw.write( 3 + " ");
 	    			}
 	    		}

@@ -1,3 +1,7 @@
+package wireworld.gui;
+
+import wireworld.system.WireWorld;
+
 import java.awt.*;
 
 public class PlayButton extends Button {

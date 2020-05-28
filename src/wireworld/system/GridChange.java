@@ -1,3 +1,5 @@
+package wireworld.system;
+
 public class GridChange {
 
     public int x;

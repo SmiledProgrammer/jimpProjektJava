@@ -1,3 +1,5 @@
+package wireworld.system;
+
 public class WireComponentLibrary {
 
     public enum Type { OR_GATE, AND_GATE, XOR_GATE };

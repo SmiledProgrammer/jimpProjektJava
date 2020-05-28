@@ -1,3 +1,8 @@
+package wireworld.gui;
+
+import wireworld.system.FileManager;
+import wireworld.system.WireWorld;
+
 import java.awt.*;
 
 public class SaveButton extends Button {
@@ -16,7 +21,6 @@ public class SaveButton extends Button {
     private final ButtonAction ba = new ButtonAction() {
         @Override
         public void clickAction() {
-            //zapisywanie pliku
             String tmp_savedFilePath = FileManager.savedFilePath;
             String name_addition = "_generation" + WireWorld.generation.generationNumber + "snapshot.gen"; //np. blabla_generation23snapshot.gen
 
@@ -28,8 +32,9 @@ public class SaveButton extends Button {
 
                 FileManager.saveGenerationToFile(WireWorld.generation);
                 FileManager.savedFilePath = tmp_savedFilePath;
-            }
-            else {
+            } else {
+                //przecież tutaj FileManager.savedFilePath jest null, więc nie można się do niego odnosić
+                /*
                 if ( FileManager.savedFilePath.endsWith(".gen") )
                     FileManager.savedFilePath = FileManager.openedFilePath.replaceFirst(".gen", name_addition);
                 else
@@ -37,8 +42,8 @@ public class SaveButton extends Button {
 
                 FileManager.saveGenerationToFile(WireWorld.generation);
                 FileManager.savedFilePath = tmp_savedFilePath;
+                */
             }
-
         }
     };
 

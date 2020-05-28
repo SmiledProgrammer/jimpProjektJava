@@ -1,3 +1,7 @@
+package wireworld.gui;
+
+import wireworld.system.WireWorld;
+
 import java.awt.*;
 
 public class NextButton extends Button {
@@ -17,7 +21,6 @@ public class NextButton extends Button {
         @Override
         public void clickAction() {
             //tworzenie następnej generacji
-
             WireWorld.step_to_next = true;
         }
     };

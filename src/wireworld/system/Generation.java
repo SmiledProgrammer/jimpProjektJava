@@ -1,3 +1,5 @@
+package wireworld.system;
+
 import java.util.ArrayList;
 
 public class Generation {
@@ -9,7 +11,7 @@ public class Generation {
 
     public enum FieldState { FIELD_EMPTY, FIELD_CONDUCTOR, FIELD_HEAD, FIELD_TAIL }
 
-    public FieldState[][] grid;
+    private FieldState[][] grid;
     public int generationNumber = 0; //zmienilem nazwe calkiem
     public int width, height;
     public boolean isGenerationDead = false;
@@ -47,28 +49,17 @@ public class Generation {
         this.height = height;
     }
     
-    public void printToConsole() //MOSTLY FOR DEBUGGING
-    {
+    public void printToConsole() { //MOSTLY FOR DEBUGGING
     	System.out.println(width + " " + height);
-    	
-    	for (int y=0; y< height; y++)
-    	{
-    		for (int x=0; x<width; x++)
-    		{
-    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY)
-    			{
+    	for (int y=0; y< height; y++) {
+    		for (int x=0; x<width; x++) {
+    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY) {
     				System.out.printf( 0 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR)
-    			{
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR) {
     				System.out.printf( 1 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_HEAD)
-    			{
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_HEAD) {
     				System.out.printf( 2 +" ");
-    			}
-    			if (grid[x][y] == Generation.FieldState.FIELD_TAIL)
-    			{
+    			} else if (grid[x][y] == Generation.FieldState.FIELD_TAIL) {
     				System.out.printf( 3 +" ");
     			}
     		}
@@ -76,8 +67,7 @@ public class Generation {
     	}
     }
 
-    public void calculateNextGeneration()
-    {
+    public void calculateNextGeneration() {
         changes = new ArrayList<GridChange>();
         replaceCells2(grid,FieldState.FIELD_TAIL,FieldState.FIELD_CONDUCTOR);
         replaceCells2(grid,FieldState.FIELD_HEAD, FieldState.FIELD_TAIL);
@@ -85,56 +75,46 @@ public class Generation {
         applyChanges(grid);
         generationNumber++;
         isGenerationDead = checkIfGenerationIsDead();
-
-        
-
     }
-    public void applyChanges(FieldState[][] grid) //you can choose, what grid you would like to apply changes to.
-    {
+
+    public void applyChanges(FieldState[][] grid) { //you can choose, what grid you would like to apply changes to.
         for (GridChange G: changes)
             grid[G.x][G.y] = G.state;
     }
 
     //OGOLNA FUNKCJA DO ZAMIANY JEDNEGO STANU NA INNY
-
-    public void replaceCells2(FieldState[][] oldGrid, FieldState oldOne, FieldState newOne)
-    {
+    public void replaceCells2(FieldState[][] oldGrid, FieldState oldOne, FieldState newOne) {
         for (int y=0; y<height; y++)
             for (int x=0; x<width; x++)
                 if (oldGrid[x][y] == oldOne)
                     changes.add(new GridChange(x,y,newOne));
-
     }
 
-    public void calculateHeads2()
-    {
+    public void calculateHeads2() {
         for (int y=0; y<height; y++)
             for (int x=0; x<width; x++)
                 if ( (grid[x][y] == FieldState.FIELD_CONDUCTOR) &&
-                        ( (getNeighboursOfState(grid,FieldState.FIELD_HEAD, x, y) == 2) || (getNeighboursOfState(grid,FieldState.FIELD_HEAD, x, y) == 1) ) )
+                        ( (getNeighboursOfStateFromGrid(grid,FieldState.FIELD_HEAD, x, y) == 2) || (getNeighboursOfStateFromGrid(grid,FieldState.FIELD_HEAD, x, y) == 1) ) )
                     changes.add(new GridChange(x,y,FieldState.FIELD_HEAD));
-
-
     }
 
-    public FieldState getCell(FieldState[][] grid, int x, int y)
-    {
-        if ( x < 0 || x >=width || y < 0 || y >= height ) {
+    public FieldState getCellFromGrid(FieldState[][] grid, int x, int y) {
+        if ( x < 0 || x >=width || y < 0 || y >= height )
             return FieldState.FIELD_EMPTY; //jezeli poza granicami, to przyjmujemy, ze to FIELD_EMPTY
-        }
-        else return grid[x][y];
+        else
+            return grid[x][y];
     }
 
-    public int getNeighboursOfState(FieldState[][] grid, FieldState state, int x, int y) {
+    public int getNeighboursOfStateFromGrid(FieldState[][] grid, FieldState state, int x, int y) {
         int neighbours = 0;
-        if ( getCell(grid, x - 1, y - 1) == state ) neighbours++;
-        if ( getCell(grid, x, y - 1) == state ) neighbours++;
-        if ( getCell(grid, x + 1, y - 1) == state ) neighbours++;
-        if ( getCell(grid, x - 1, y) == state ) neighbours++;
-        if ( getCell(grid, x + 1, y) == state ) neighbours++;
-        if ( getCell(grid, x - 1, y + 1) == state ) neighbours++;
-        if ( getCell(grid, x, y + 1) == state ) neighbours++;
-        if ( getCell(grid, x + 1, y + 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x - 1, y - 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x, y - 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x + 1, y - 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x - 1, y) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x + 1, y) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x - 1, y + 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x, y + 1) == state ) neighbours++;
+        if ( getCellFromGrid(grid, x + 1, y + 1) == state ) neighbours++;
 
         return neighbours;
     }
@@ -147,6 +127,14 @@ public class Generation {
             }
         }
         return true;
+    }
+
+    public void setCell(FieldState state, int x, int y) {
+        grid[x][y] = state;
+    }
+
+    public FieldState getCell(int x, int y) {
+        return grid[x][y];
     }
 
 }

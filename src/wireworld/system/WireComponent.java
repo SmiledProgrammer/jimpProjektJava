@@ -1,3 +1,7 @@
+package wireworld.system;
+
+import wireworld.utils.Vector2D;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class WireComponent {
             verticalSize = size.x;
         }
         if (x < 0 || x + horizontalSize > gen.width || y < 0 || y + verticalSize > gen.height) { //sprawdzanie czy komponent zmieści się na planszy
-            System.err.println("The component can't be placed here. It would pass the generation boundaries.");
+            System.err.println("The component can't be placed here. It would be outside of grid boundaries.");
             return;
         }
     }

@@ -1,3 +1,5 @@
+package wireworld.gui;
+
 import java.awt.*;
 
 public class GateButton extends Button {

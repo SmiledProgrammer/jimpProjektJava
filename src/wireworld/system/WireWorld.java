@@ -1,7 +1,6 @@
-import java.awt.*;
-import java.sql.Savepoint;
+package wireworld.system;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import wireworld.gui.GenerationWindow;
 
 public class WireWorld implements Runnable {
 	
@@ -16,7 +15,6 @@ public class WireWorld implements Runnable {
     public static boolean step_to_next = false;
     public static boolean fileHasBeenSaved = false;
 
-
     public static void main(String[] args) {
         WireWorld world = new WireWorld();
         InputData.processArguments(args);
@@ -27,7 +25,6 @@ public class WireWorld implements Runnable {
         while (true) {
             if (playing) {
                 if ( generation.isGenerationDead == false ) {
-
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
@@ -38,33 +35,25 @@ public class WireWorld implements Runnable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                 }
             } else if (step_to_next) {         //it has to be pause (playing == false) to perform this
                 if ( generation.isGenerationDead == false ) {
-
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
                     window.getContentPane().repaint();
                     step_to_next = false; //only one step
                 }
-            }
-
-            else {
+            } else {
                 window.getContentPane().revalidate();
                 window.getContentPane().repaint();
             }
             if (generation.isGenerationDead == true)
                 stopAndSave();
         }
-
     }
 
-
-
-    private static void stopAndSave()
-    {
+    private static void stopAndSave() {
         if (fileHasBeenSaved == false) {
             System.out.println("Stopped at generation #" + generation.generationNumber);
             if ( FileManager.savedFilePath != null )
@@ -78,6 +67,5 @@ public class WireWorld implements Runnable {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }
