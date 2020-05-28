@@ -1,5 +1,6 @@
 package wireworld.gui;
 
+import wireworld.system.FileManager;
 import wireworld.system.Generation;
 import wireworld.system.WireWorld;
 
@@ -37,6 +38,8 @@ public class GenerationWindow extends JFrame implements MouseListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                if (FileManager.savedFilePath!=null)
+                    FileManager.saveGenerationToFile(gen);
                 System.out.println("Generation has been saved."); //do poprawki potem
             }
         });
