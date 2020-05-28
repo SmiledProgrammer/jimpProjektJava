@@ -34,15 +34,15 @@ public class SaveButton extends Button {
                 FileManager.savedFilePath = tmp_savedFilePath;
             } else {
                 //przecież tutaj FileManager.savedFilePath jest null, więc nie można się do niego odnosić
-                /*
-                if ( FileManager.savedFilePath.endsWith(".gen") )
+
+                if ( FileManager.openedFilePath.endsWith(".gen") )
                     FileManager.savedFilePath = FileManager.openedFilePath.replaceFirst(".gen", name_addition);
                 else
                     FileManager.savedFilePath = FileManager.openedFilePath.concat(name_addition);
 
                 FileManager.saveGenerationToFile(WireWorld.generation);
                 FileManager.savedFilePath = tmp_savedFilePath;
-                */
+
             }
         }
     };
