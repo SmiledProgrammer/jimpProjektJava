@@ -13,6 +13,7 @@ public class GenerationGrid implements WindowComponent {
     private Generation generation;
     private int x, y;
     private int fieldWidth, fieldHeight;
+    private Generation.FieldState stateBeingChanged;
 
     public GenerationGrid(GenerationWindow window, Generation gen, int x, int y, int fieldWidth, int fieldHeight) {
         this.window = window;
@@ -53,11 +54,13 @@ public class GenerationGrid implements WindowComponent {
                     g.setColor(Color.YELLOW);
                 }
                 g.fillRect(this.x + fieldWidth * x, this.y + fieldHeight * y, fieldWidth, fieldHeight);
-                if (x == selectedField.x && y == selectedField.y) { //jeśli nad polem jest myszka, to dodatkowy kolorek
-                    Color inverse = Utils.inverseColor(g.getColor());
-                    Color c = new Color(inverse.getRed(), inverse.getGreen(), inverse.getBlue(), 64);
-                    g.setColor(c);
-                    g.fillRect(this.x + fieldWidth * x, this.y + fieldHeight * y, fieldWidth, fieldHeight);
+                if (!window.isBlockingEditing()) { //blokowanie podświetlania aktualnego pola, jeśli menu z bramkami logicznymi jest otwarte
+                    if (x == selectedField.x && y == selectedField.y) { //jeśli nad polem jest myszka, to dodatkowy kolorek
+                        Color inverse = Utils.inverseColor(g.getColor());
+                        Color c = new Color(inverse.getRed(), inverse.getGreen(), inverse.getBlue(), 64);
+                        g.setColor(c);
+                        g.fillRect(this.x + fieldWidth * x, this.y + fieldHeight * y, fieldWidth, fieldHeight);
+                    }
                 }
             }
         }
@@ -66,20 +69,26 @@ public class GenerationGrid implements WindowComponent {
     @Override
     public void clickAction() {
         Vector2D selectedField = getFieldWithMouseOn();
-        if (selectedField.x != -1) {
+        if (selectedField.x >= 0 && selectedField.x < generation.width && selectedField.y >= 0 && selectedField.y < generation.height) {
             Generation.FieldState selectedFieldState = generation.getCell(selectedField.x, selectedField.y);
-            if (selectedFieldState == Generation.FieldState.FIELD_EMPTY) {
-                generation.setCell(Generation.FieldState.FIELD_CONDUCTOR, selectedField.x, selectedField.y);
-            } else if (selectedFieldState == Generation.FieldState.FIELD_CONDUCTOR) {
-                generation.setCell(Generation.FieldState.FIELD_HEAD, selectedField.x, selectedField.y);
-            } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD) {
-                generation.setCell(Generation.FieldState.FIELD_EMPTY, selectedField.x, selectedField.y);
+            if (stateBeingChanged != null && selectedFieldState == stateBeingChanged) {
+                if (selectedFieldState == Generation.FieldState.FIELD_EMPTY) {
+                    generation.setCell(Generation.FieldState.FIELD_CONDUCTOR, selectedField.x, selectedField.y);
+                } else if (selectedFieldState == Generation.FieldState.FIELD_CONDUCTOR) {
+                    generation.setCell(Generation.FieldState.FIELD_HEAD, selectedField.x, selectedField.y);
+                } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD) {
+                    generation.setCell(Generation.FieldState.FIELD_EMPTY, selectedField.x, selectedField.y);
+                }
             }
         }
     }
 
-    public int getGenerationWidth() {
-        return generation.width;
+    public void updateStateBeingChanged() {
+        Vector2D selectedField = getFieldWithMouseOn();
+        if (selectedField.x >= 0 && selectedField.x < generation.width && selectedField.y >= 0 && selectedField.y < generation.height)
+            stateBeingChanged = generation.getCell(selectedField.x, selectedField.y);
+        else
+            stateBeingChanged = null;
     }
 
     public int getGenerationHeight() {

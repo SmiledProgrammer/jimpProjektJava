@@ -27,6 +27,9 @@ public class GenerationWindow extends JFrame implements MouseListener {
     private Button gateButton;
     private Button saveButton;
 
+    private boolean mouseDown = false;
+    private boolean blockingEditing = false;
+
     public GenerationWindow(Generation gen) {
         super("Generation Window");
         setupGrid(gen);
@@ -40,7 +43,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
             public void windowClosing(WindowEvent e) {
                 if (FileManager.savedFilePath!=null)
                     FileManager.saveGenerationToFile(gen);
-                System.out.println("Generation has been saved."); //do poprawki potem
+                System.out.println("Generation has been saved.");
             }
         });
         this.addMouseListener(this);
@@ -75,27 +78,32 @@ public class GenerationWindow extends JFrame implements MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) { }
+    public void mousePressed(MouseEvent e) {
+        if (!blockingEditing) {
+            mouseDown = true;
+            grid.updateStateBeingChanged();
+        }
+    }
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(MouseEvent e) {
+        playButton.clickAction();
+        nextButton.clickAction();
+        gateButton.clickAction();
+        saveButton.clickAction();
+        mouseDown = false;
+    }
     @Override
     public void mouseEntered(MouseEvent e) { }
     @Override
     public void mouseExited(MouseEvent e) { }
     @Override
-    public void mouseClicked(MouseEvent e) {
-        grid.clickAction();
-        playButton.clickAction();
-        nextButton.clickAction();
-        gateButton.clickAction();
-        saveButton.clickAction();
-    }
+    public void mouseClicked(MouseEvent e) { }
 
     public class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
         	//generation.printToConsole(); //debugging
             g.setColor(Color.DARK_GRAY);
-            g.fillRect(0, 0, width, height);
+            g.fillRect(0, 0, width, height); //szare tło
 
             grid.paint(g);
             playButton.paint(g);
@@ -103,6 +111,20 @@ public class GenerationWindow extends JFrame implements MouseListener {
             gateButton.paint(g);
             saveButton.paint(g);
         }
+    }
+
+    public void update() {
+        if (mouseDown) {
+            grid.clickAction();
+        }
+    }
+
+    public void setBlockingEditing(boolean value) {
+        blockingEditing = value;
+    }
+
+    public boolean isBlockingEditing() {
+        return blockingEditing;
     }
 
 }

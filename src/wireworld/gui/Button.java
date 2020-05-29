@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Button implements WindowComponent {
 
-    private GenerationWindow window;
+    protected GenerationWindow window;
     protected int x, y;
     protected int width, height;
 

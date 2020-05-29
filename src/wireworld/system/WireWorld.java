@@ -2,10 +2,10 @@ package wireworld.system;
 
 import wireworld.gui.GenerationWindow;
 
-public class WireWorld implements Runnable {
+public class WireWorld {
 	
 	//private static Thread runThread;
-	private static final int delay = 500; //opoznienie - szybkosc odswiezania
+	private static final int delay = 100; //opoznienie - szybkosc odswiezania
 	
     public static Generation generation;
     public static int numberOfGenerations = 30;
@@ -15,12 +15,10 @@ public class WireWorld implements Runnable {
     public static boolean step_to_next = false;
     public static boolean fileHasBeenSaved = false;
 
-    public static void main(String[] args) {
-        WireWorld world = new WireWorld();
+    public static void main(String[] args) throws InterruptedException {
         InputData.processArguments(args);
         generation.printToConsole();
         window = new GenerationWindow(generation);
-        
 
         while (true) {
             if (playing) {
@@ -29,6 +27,8 @@ public class WireWorld implements Runnable {
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
                     window.getContentPane().repaint();
+                    Thread.sleep(1);
+                    window.update();
 
                     try {
                         Thread.sleep(delay);
@@ -42,11 +42,15 @@ public class WireWorld implements Runnable {
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
                     window.getContentPane().repaint();
+                    Thread.sleep(1);
+                    window.update();
                     step_to_next = false; //only one step
                 }
             } else {
                 window.getContentPane().revalidate();
                 window.getContentPane().repaint();
+                Thread.sleep(1);
+                window.update();
             }
             if (generation.isGenerationDead == true)
                 stopAndSave();
@@ -61,11 +65,5 @@ public class WireWorld implements Runnable {
             fileHasBeenSaved = true;
         }
     }
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
