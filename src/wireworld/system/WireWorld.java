@@ -52,8 +52,11 @@ public class WireWorld {
                 Thread.sleep(1);
                 window.update();
             }
-            if (generation.isGenerationDead == true)
+            if (generation.isGenerationDead == true) {
                 stopAndSave();
+                generation.isGenerationDead = false;
+            }
+            generation.isGenerationDead = generation.checkIfGenerationIsDead();
         }
     }
 
