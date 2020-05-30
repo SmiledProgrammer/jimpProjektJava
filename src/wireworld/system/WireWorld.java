@@ -2,6 +2,8 @@ package wireworld.system;
 
 import wireworld.gui.GenerationWindow;
 
+import java.awt.font.TextHitInfo;
+
 public class WireWorld {
 	
 	//private static Thread runThread;
@@ -23,7 +25,7 @@ public class WireWorld {
 
         while (true) {
             if (playing) {
-                if ( generation.isGenerationDead == false ) {
+                
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
@@ -36,9 +38,7 @@ public class WireWorld {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
             } else if (step_to_next) {         //it has to be pause (playing == false) to perform this
-                if ( generation.isGenerationDead == false ) {
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
@@ -46,14 +46,16 @@ public class WireWorld {
                     Thread.sleep(1);
                     window.update();
                     step_to_next = false; //only one step
-                }
             } else {
                 window.getContentPane().revalidate();
                 window.getContentPane().repaint();
                 Thread.sleep(1);
                 window.update();
+                generation.isGenerationDead = generation.checkIfGenerationIsDead();
+                Thread.sleep(10);
+
             }
-            generation.isGenerationDead = generation.checkIfGenerationIsDead();
+
         }
     }
 
