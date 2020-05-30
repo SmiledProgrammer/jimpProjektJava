@@ -23,26 +23,26 @@ public class WireComponent {
     }
 
     public void place(Generation gen, int x, int y, Orientation orientation, boolean flipped) {
-        int horizontalSize, verticalSize;
-        if (orientation == Orientation.HORIZONTAL) {
-            horizontalSize = size.x;
-            verticalSize = size.y;
-        } else {
-            horizontalSize = size.y;
-            verticalSize = size.x;
-        }
-        if (x < 0 || x + horizontalSize > gen.width || y < 0 || y + verticalSize > gen.height) { //sprawdzanie czy komponent zmieści się na planszy
-            System.err.println("The component can't be placed here. It would be outside of grid boundaries.");
-            return;
-        }
+        ArrayList<Vector2D> points = getPoints(orientation, flipped);
+        for (Vector2D v : points)
+            gen.setCell(Generation.FieldState.FIELD_CONDUCTOR, x + v.x, y + v.y);
     }
 
     public ArrayList<Vector2D> getPoints(Orientation orientation, boolean flipped) {
         ArrayList<Vector2D> points = new ArrayList<>();
-        System.arraycopy(structure, 0, points, 0, structure.size());
-        if (orientation == Orientation.VERTICAL) {
-            for (Vector2D v : points) {
-                // TODO
+        for (Vector2D v : structure) //kopiowanie tablicy
+            points.add(new Vector2D(v.x, v.y));
+        if (orientation == Orientation.VERTICAL) { //zamienianie "x" z "y" (zmiana orientacji)
+            for (Vector2D v0 : points) {
+                int tmp = v0.x;
+                v0.x = v0.y;
+                v0.y = tmp;
+            }
+        }
+        if (flipped) { //lustrzane odbicie
+            for (Vector2D v1 : points) {
+                v1.x = size.x - 1 - v1.x;
+                v1.y = size.y - 1 - v1.y;
             }
         }
         return points;

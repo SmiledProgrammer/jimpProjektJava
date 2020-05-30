@@ -36,7 +36,7 @@ public class GenerationGrid implements WindowComponent {
         if (p != null) {
             int chosenFieldX = (p.x - x) / fieldWidth;
             int chosenFieldY = (p.y - y) / fieldHeight;
-            if (chosenFieldX < generation.width && chosenFieldY < generation.height)
+            if (chosenFieldX >= 0 && chosenFieldX < generation.width && chosenFieldY >= 0 && chosenFieldY < generation.height)
                 return new Vector2D(chosenFieldX, chosenFieldY);
             else
                 return new Vector2D(-1, -1);
@@ -46,6 +46,17 @@ public class GenerationGrid implements WindowComponent {
 
     @Override
     public void paint(Graphics g) {
+        paintGrid(g); //rysowanie planszy
+        if (!window.isBlockingEditing()) { //blokowanie podświetlania aktualnego pola, jeśli menu z bramkami logicznymi jest otwarte
+            if (chosenGateToPlace == null) { //rysowanie po planszy tylko, jeśli żadna bramka logiczna nie jest aktualnie wybrana
+                paintSelection(g); //jeśli nad polem jest myszka, to dodatkowy kolorek nad tym polem
+            } else { //rysowanie wybranej bramki logicznej
+                paintChosenGate(g);
+            }
+        }
+    }
+
+    private void paintGrid(Graphics g) {
         Generation gen = WireWorld.generation;
         for (int x = 0; x < gen.width; x++) {
             for (int y = 0; y < gen.height; y++) {
@@ -62,21 +73,27 @@ public class GenerationGrid implements WindowComponent {
                 g.fillRect(this.x + fieldWidth * x, this.y + fieldHeight * y, fieldWidth, fieldHeight);
             }
         }
+    }
 
-        //jeśli nad polem jest myszka, to dodatkowy kolorek
-        if (!window.isBlockingEditing()) { //blokowanie podświetlania aktualnego pola, jeśli menu z bramkami logicznymi jest otwarte
-            if (chosenGateToPlace == null) {
-                Vector2D selectedField = getFieldWithMouseOn();
-                if (selectedField.x != -1 && selectedField.y != -1) {
-                    Color inverse = Utils.inverseColor(g.getColor());
-                    Color c = new Color(inverse.getRed(), inverse.getGreen(), inverse.getBlue(), 64);
-                    g.setColor(c);
-                    g.fillRect(this.x + fieldWidth * selectedField.x, this.y + fieldHeight * selectedField.y, fieldWidth, fieldHeight);
-                }
-            } else {
-                Vector2D selectedField = getFieldWithMouseOn();
-                g.setColor(new Color(0, 0, 0, 80));
-                List<Vector2D> points = WireWorld.componentLibrary.getComponentPoints(chosenGateToPlace, chosenGateOrientation, chosenGateFlipped);
+    private void paintSelection(Graphics g) {
+        Vector2D selectedField = getFieldWithMouseOn();
+        if (selectedField.x != -1 && selectedField.y != -1) {
+            Color inverse = Utils.inverseColor(g.getColor());
+            Color c = new Color(inverse.getRed(), inverse.getGreen(), inverse.getBlue(), 64);
+            g.setColor(c);
+            g.fillRect(this.x + fieldWidth * selectedField.x, this.y + fieldHeight * selectedField.y, fieldWidth, fieldHeight);
+        }
+    }
+
+    private void paintChosenGate(Graphics g) {
+        Generation gen = WireWorld.generation;
+        Vector2D selectedField = getFieldWithMouseOn();
+        if (selectedField.x != -1 && selectedField.y != -1) {
+            List<Vector2D> points = WireWorld.componentLibrary.getComponentPoints(chosenGateToPlace, chosenGateOrientation, chosenGateFlipped);
+            g.setColor(new Color(0, 0, 0, 80));
+            for (Vector2D v : points) {
+                if ((selectedField.x + v.x) < gen.width && (selectedField.y + v.y) < gen.height)
+                    g.fillRect(this.x + fieldWidth * (selectedField.x + v.x), this.y + fieldHeight * (selectedField.y + v.y), fieldWidth, fieldHeight);
             }
         }
     }
@@ -84,23 +101,29 @@ public class GenerationGrid implements WindowComponent {
     @Override
     public void clickAction() {
         Vector2D selectedField = getFieldWithMouseOn();
-        if (selectedField.x >= 0 && selectedField.x < generation.width && selectedField.y >= 0 && selectedField.y < generation.height) {
-            Generation.FieldState selectedFieldState = generation.getCell(selectedField.x, selectedField.y);
-            if (stateBeingChanged != null && selectedFieldState == stateBeingChanged) {
-                if (selectedFieldState == Generation.FieldState.FIELD_EMPTY) {
-                    generation.setCell(Generation.FieldState.FIELD_CONDUCTOR, selectedField.x, selectedField.y);
-                } else if (selectedFieldState == Generation.FieldState.FIELD_CONDUCTOR) {
-                    generation.setCell(Generation.FieldState.FIELD_HEAD, selectedField.x, selectedField.y);
-                } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD) {
-                    generation.setCell(Generation.FieldState.FIELD_EMPTY, selectedField.x, selectedField.y);
+        if (selectedField.x != -1 && selectedField.y != -1) {
+            if (chosenGateToPlace == null) {
+                Generation.FieldState selectedFieldState = generation.getCell(selectedField.x, selectedField.y);
+                if (stateBeingChanged != null && selectedFieldState == stateBeingChanged) {
+                    if (selectedFieldState == Generation.FieldState.FIELD_EMPTY) {
+                        generation.setCell(Generation.FieldState.FIELD_CONDUCTOR, selectedField.x, selectedField.y);
+                    } else if (selectedFieldState == Generation.FieldState.FIELD_CONDUCTOR) {
+                        generation.setCell(Generation.FieldState.FIELD_HEAD, selectedField.x, selectedField.y);
+                    } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD) {
+                        generation.setCell(Generation.FieldState.FIELD_EMPTY, selectedField.x, selectedField.y);
+                    }
                 }
+            } else {
+                WireWorld.componentLibrary.placeComponent(generation, selectedField.x, selectedField.y, chosenGateToPlace, chosenGateOrientation, chosenGateFlipped);
+                window.resetMouseDown();
+                chosenGateToPlace = null;
             }
         }
     }
 
     public void updateStateBeingChanged() {
         Vector2D selectedField = getFieldWithMouseOn();
-        if (selectedField.x >= 0 && selectedField.x < generation.width && selectedField.y >= 0 && selectedField.y < generation.height)
+        if (selectedField.x != -1 && selectedField.y != -1)
             stateBeingChanged = generation.getCell(selectedField.x, selectedField.y);
         else
             stateBeingChanged = null;

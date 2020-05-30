@@ -133,6 +133,10 @@ public class GenerationWindow extends JFrame implements MouseListener {
         grid.setChosenGateFlipped(flipped);
     }
 
+    public void resetMouseDown() {
+        mouseDown = false;
+    }
+
     public boolean isBlockingEditing() {
         return blockingEditing;
     }

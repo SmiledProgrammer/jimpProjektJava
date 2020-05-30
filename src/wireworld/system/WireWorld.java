@@ -25,7 +25,6 @@ public class WireWorld {
 
         while (true) {
             if (playing) {
-                
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
@@ -53,9 +52,7 @@ public class WireWorld {
                 window.update();
                 generation.isGenerationDead = generation.checkIfGenerationIsDead();
                 Thread.sleep(10);
-
             }
-
         }
     }
 

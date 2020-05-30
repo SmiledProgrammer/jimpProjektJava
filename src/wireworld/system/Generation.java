@@ -130,7 +130,8 @@ public class Generation {
     }
 
     public void setCell(FieldState state, int x, int y) {
-        grid[x][y] = state;
+        if (x >= 0 && x < width && y >= 0 && y < height)
+            grid[x][y] = state;
     }
 
     public FieldState getCell(int x, int y) {

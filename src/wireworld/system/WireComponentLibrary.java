@@ -34,11 +34,11 @@ public class WireComponentLibrary {
     }
 
     private void initializeAND() {
-
+        andGate = new WireComponent();
     }
 
     private void initializeXOR() {
-
+        xorGate = new WireComponent();
     }
 
     public void placeComponent(Generation gen, int x, int y, Type type, WireComponent.Orientation orientation, boolean flipped) {
