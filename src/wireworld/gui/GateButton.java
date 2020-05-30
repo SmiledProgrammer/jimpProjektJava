@@ -33,11 +33,12 @@ public class GateButton extends Button {
     private ButtonAction ba = new ButtonAction() {
         @Override
         public void clickAction() {
-            if (menu.isVisible())
-                menu.setVisible(false);
-            else
-                menu.setVisible(true);
-
+            if (mouseOnButton()) {
+                if (menu.isVisible())
+                    menu.setVisible(false);
+                else
+                    menu.setVisible(true);
+            }
             menu.clickAction();
         }
     };

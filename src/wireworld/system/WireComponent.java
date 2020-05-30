@@ -3,14 +3,13 @@ package wireworld.system;
 import wireworld.utils.Vector2D;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WireComponent {
 
     public enum Orientation { HORIZONTAL, VERTICAL };
 
     private Vector2D size;
-    private List<Vector2D> structure;
+    private ArrayList<Vector2D> structure;
 
     public WireComponent() {
         size = new Vector2D(0, 0);
@@ -36,6 +35,17 @@ public class WireComponent {
             System.err.println("The component can't be placed here. It would be outside of grid boundaries.");
             return;
         }
+    }
+
+    public ArrayList<Vector2D> getPoints(Orientation orientation, boolean flipped) {
+        ArrayList<Vector2D> points = new ArrayList<>();
+        System.arraycopy(structure, 0, points, 0, structure.size());
+        if (orientation == Orientation.VERTICAL) {
+            for (Vector2D v : points) {
+                // TODO
+            }
+        }
+        return points;
     }
 
 }

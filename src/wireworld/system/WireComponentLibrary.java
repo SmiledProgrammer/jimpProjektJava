@@ -1,13 +1,21 @@
 package wireworld.system;
 
+import wireworld.utils.Vector2D;
+
+import java.util.ArrayList;
+
 public class WireComponentLibrary {
 
     public enum Type { OR_GATE, AND_GATE, XOR_GATE };
 
     private WireComponent orGate;
+    private WireComponent andGate;
+    private WireComponent xorGate;
 
     public WireComponentLibrary() {
         initializeOR();
+        initializeAND();
+        initializeXOR();
     }
 
     private void initializeOR() {
@@ -25,12 +33,29 @@ public class WireComponentLibrary {
         orGate.addPointToStructure(2, 4);
     }
 
+    private void initializeAND() {
+
+    }
+
+    private void initializeXOR() {
+
+    }
+
     public void placeComponent(Generation gen, int x, int y, Type type, WireComponent.Orientation orientation, boolean flipped) {
         switch (type) {
             case OR_GATE: orGate.place(gen, x, y, orientation, flipped);
-            case AND_GATE:
-            case XOR_GATE:
+            case AND_GATE: andGate.place(gen, x, y, orientation, flipped);
+            case XOR_GATE: xorGate.place(gen, x, y, orientation, flipped);
         }
+    }
+
+    public ArrayList<Vector2D> getComponentPoints(Type type, WireComponent.Orientation orientation, boolean flipped) {
+        switch (type) {
+            case OR_GATE: return orGate.getPoints(orientation, flipped);
+            case AND_GATE: return andGate.getPoints(orientation, flipped);
+            case XOR_GATE: return xorGate.getPoints(orientation, flipped);
+        }
+        return null;
     }
 
 }

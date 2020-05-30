@@ -1,8 +1,6 @@
 package wireworld.gui;
 
-import wireworld.system.FileManager;
-import wireworld.system.Generation;
-import wireworld.system.WireWorld;
+import wireworld.system.*;
 
 import javax.swing.*;
 
@@ -121,6 +119,18 @@ public class GenerationWindow extends JFrame implements MouseListener {
 
     public void setBlockingEditing(boolean value) {
         blockingEditing = value;
+    }
+
+    public void setChosenGateType(WireComponentLibrary.Type gate) {
+        grid.setChosenGateType(gate);
+    }
+
+    public void setChosenGateOrientation(WireComponent.Orientation orientation) {
+        grid.setChosenGateOrientation(orientation);
+    }
+
+    public void setChosenGateFlipped(boolean flipped) {
+        grid.setChosenGateFlipped(flipped);
     }
 
     public boolean isBlockingEditing() {

@@ -1,6 +1,7 @@
 package wireworld.gui;
 
 import wireworld.system.Generation;
+import wireworld.system.WireComponentLibrary;
 
 import java.awt.*;
 
@@ -32,9 +33,9 @@ public class GateMenu implements WindowComponent {
 
     private void setupOptions() {
         int optionHeight = height / 3;
-        orGate = new GateOption(window, this, x, y, width, optionHeight, "OR Gate");
-        andGate = new GateOption(window, this, x, y + optionHeight, width, optionHeight, "AND Gate");
-        xorGate = new GateOption(window, this, x, y + optionHeight * 2, width, optionHeight, "XOR Gate");
+        orGate = new GateOption(window, this, x, y, width, optionHeight, "OR Gate", WireComponentLibrary.Type.OR_GATE);
+        andGate = new GateOption(window, this, x, y + optionHeight, width, optionHeight, "AND Gate", WireComponentLibrary.Type.AND_GATE);
+        xorGate = new GateOption(window, this, x, y + optionHeight * 2, width, optionHeight, "XOR Gate", WireComponentLibrary.Type.XOR_GATE);
     }
 
     @Override

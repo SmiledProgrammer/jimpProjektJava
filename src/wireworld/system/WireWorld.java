@@ -8,12 +8,13 @@ public class WireWorld {
 	private static final int delay = 100; //opoznienie - szybkosc odswiezania
 	
     public static Generation generation;
-    public static int numberOfGenerations = 30;
+    public static int numberOfGenerations = 1000;
     public static GenerationWindow window;
 
     public static boolean playing = false;
     public static boolean step_to_next = false;
-    public static boolean fileHasBeenSaved = false;
+
+    public static WireComponentLibrary componentLibrary = new WireComponentLibrary();
 
     public static void main(String[] args) throws InterruptedException {
         InputData.processArguments(args);
@@ -52,20 +53,7 @@ public class WireWorld {
                 Thread.sleep(1);
                 window.update();
             }
-            if (generation.isGenerationDead == true) {
-                stopAndSave();
-                generation.isGenerationDead = false;
-            }
             generation.isGenerationDead = generation.checkIfGenerationIsDead();
-        }
-    }
-
-    private static void stopAndSave() {
-        if (fileHasBeenSaved == false) {
-            System.out.println("Stopped at generation #" + generation.generationNumber);
-            if ( FileManager.savedFilePath != null )
-                FileManager.saveGenerationToFile(generation);
-            fileHasBeenSaved = true;
         }
     }
 

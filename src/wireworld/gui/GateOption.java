@@ -1,5 +1,7 @@
 package wireworld.gui;
 
+import wireworld.system.WireComponentLibrary;
+
 import java.awt.*;
 
 public class GateOption implements WindowComponent {
@@ -18,7 +20,9 @@ public class GateOption implements WindowComponent {
     private static final int textOffsetX = 20;
     private static final int textOffsetY = 48;
 
-    public GateOption(GenerationWindow window, GateMenu menu, int x, int y, int width, int height, String gateName) {
+    private WireComponentLibrary.Type gate;
+
+    public GateOption(GenerationWindow window, GateMenu menu, int x, int y, int width, int height, String gateName, WireComponentLibrary.Type gate) {
         this.window = window;
         this.menu = menu;
         this.x = x;
@@ -26,6 +30,7 @@ public class GateOption implements WindowComponent {
         this.width = width;
         this.height = height;
         this.gateName = gateName;
+        this.gate = gate;
     }
 
     private boolean mouseOnOption() {
@@ -48,7 +53,7 @@ public class GateOption implements WindowComponent {
     @Override
     public void clickAction() {
         if (mouseOnOption()) {
-            //komunikacja z okienkiem w jakiś sposób, żeby zaczęło stawiać
+            window.setChosenGateType(gate);
             menu.setVisible(false);
         }
     }

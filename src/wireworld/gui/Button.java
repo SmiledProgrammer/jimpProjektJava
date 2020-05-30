@@ -27,7 +27,7 @@ public class Button implements WindowComponent {
         this.height = height;
     }
 
-    private boolean mouseOnButton() {
+    protected boolean mouseOnButton() {
         Point p = window.getContentPane().getMousePosition();
         if (p != null)
             return (p.x >= x && p.x <= x + width && p.y >= y && p.y < y + height);
@@ -46,7 +46,7 @@ public class Button implements WindowComponent {
 
     @Override
     public void clickAction() {
-        if (action != null && mouseOnButton()) {
+        if (action != null) {
             action.clickAction();
         }
     }

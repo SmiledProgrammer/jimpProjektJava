@@ -38,10 +38,12 @@ public class PlayButton extends Button {
     private ButtonAction ba = new ButtonAction() {
         @Override
         public void clickAction() {
-            if (playing)
-                pause();
-            else
-                play();
+            if (mouseOnButton()) {
+                if (playing)
+                    pause();
+                else
+                    play();
+            }
         }
     };
 
