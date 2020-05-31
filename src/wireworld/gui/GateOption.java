@@ -55,8 +55,6 @@ public class GateOption implements WindowComponent {
     public void clickAction() {
         if (mouseOnOption()) {
             window.setChosenGateType(gate);
-            //window.setChosenGateFlipped(true);
-            window.setChosenGateOrientation(WireComponent.Orientation.VERTICAL);
             menu.setVisible(false);
         }
     }

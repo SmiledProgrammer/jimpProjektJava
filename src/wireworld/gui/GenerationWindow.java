@@ -77,18 +77,25 @@ public class GenerationWindow extends JFrame implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!blockingEditing) {
-            mouseDown = true;
-            grid.updateStateBeingChanged();
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            if (!blockingEditing) {
+                mouseDown = true;
+                grid.updateStateBeingChanged();
+            }
+        }
+        if (SwingUtilities.isRightMouseButton(e)) { //obracanie wybranej bramki logicznej
+            grid.rotateChosenComponent();
         }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        playButton.clickAction();
-        nextButton.clickAction();
-        gateButton.clickAction();
-        saveButton.clickAction();
-        mouseDown = false;
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            playButton.clickAction();
+            nextButton.clickAction();
+            gateButton.clickAction();
+            saveButton.clickAction();
+            mouseDown = false;
+        }
     }
     @Override
     public void mouseEntered(MouseEvent e) { }

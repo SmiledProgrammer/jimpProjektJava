@@ -129,6 +129,22 @@ public class GenerationGrid implements WindowComponent {
             stateBeingChanged = null;
     }
 
+    public void rotateChosenComponent() {
+        if (chosenGateOrientation == WireComponent.Orientation.HORIZONTAL && chosenGateFlipped == false) {
+            chosenGateOrientation = WireComponent.Orientation.VERTICAL;
+            chosenGateFlipped = true;
+        } else if (chosenGateOrientation == WireComponent.Orientation.VERTICAL && chosenGateFlipped == true) {
+            chosenGateOrientation = WireComponent.Orientation.HORIZONTAL;
+            chosenGateFlipped = true;
+        } else if (chosenGateOrientation == WireComponent.Orientation.HORIZONTAL && chosenGateFlipped == true) {
+            chosenGateOrientation = WireComponent.Orientation.VERTICAL;
+            chosenGateFlipped = false;
+        } else if (chosenGateOrientation == WireComponent.Orientation.VERTICAL && chosenGateFlipped == false) {
+            chosenGateOrientation = WireComponent.Orientation.HORIZONTAL;
+            chosenGateFlipped = false;
+        }
+    }
+
     public void setChosenGateType(WireComponentLibrary.Type gate) {
         chosenGateToPlace = gate;
     }
