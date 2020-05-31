@@ -39,9 +39,10 @@ public class GenerationWindow extends JFrame implements MouseListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (FileManager.savedFilePath!=null)
+                if (FileManager.savedFilePath!=null) {
                     FileManager.saveGenerationToFile(gen);
-                System.out.println("Generation has been saved.");
+                    System.out.println("Generation has been saved.");
+                }
             }
         });
         this.addMouseListener(this);
