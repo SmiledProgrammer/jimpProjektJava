@@ -1,6 +1,7 @@
 package wireworld.system;
 
 import wireworld.gui.GenerationWindow;
+import wireworld.gui.PlayButton;
 
 import java.awt.font.TextHitInfo;
 
@@ -15,18 +16,20 @@ public class WireWorld {
 
     public static boolean playing = false;
     public static boolean step_to_next = false;
+    public static boolean has_paused_already = false;
 
     public static WireComponentLibrary componentLibrary = new WireComponentLibrary();
 
     public static void main(String[] args) throws InterruptedException {
         InputData.processArguments(args);
-        generation.printToConsole();
+        //generation.printToConsole();
         window = new GenerationWindow(generation);
 
         while (true) {
-            if (generation.generationNumber == numberOfGenerations){
+            if (generation.generationNumber == numberOfGenerations && playing == true && has_paused_already==false){
                 System.out.println("Generation number is " + numberOfGenerations+". Pausing.");
-                playing = false;
+                window.playButton.pause();
+                has_paused_already = true;
             }
             if (playing) {
                     generation.calculateNextGeneration();
@@ -48,6 +51,7 @@ public class WireWorld {
                     window.getContentPane().repaint();
                     Thread.sleep(1);
                     window.update();
+                    if (generation.generationNumber == numberOfGenerations) System.out.println("Generation number is " + numberOfGenerations);
                     step_to_next = false; //only one step
             } else {
                 window.getContentPane().revalidate();

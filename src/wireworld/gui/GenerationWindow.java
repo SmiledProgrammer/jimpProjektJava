@@ -20,7 +20,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
     private int buttonsSpacing;
 
     private GenerationGrid grid;
-    private Button playButton;
+    public PlayButton playButton;
     private Button nextButton;
     private Button gateButton;
     private Button saveButton;

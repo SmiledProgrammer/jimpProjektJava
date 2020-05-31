@@ -52,7 +52,7 @@ public class InputData {
                         width = Integer.parseInt(args[++i]);
                         height = Integer.parseInt(args[++i]);
                         if (width >= 1 && height >= 1) {
-                            System.out.println("wireworld.system.Generation size loaded correctly (" + width + "x" + height + ").");
+                            System.out.println("Generation size loaded correctly (" + width + "x" + height + ").");
                             newFileSpecified = true;
                         } else if (width < 1) {
                             System.out.println("Width is smaller than 0 (" + width + "). Ignoring the argument.");
