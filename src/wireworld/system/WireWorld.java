@@ -24,6 +24,10 @@ public class WireWorld {
         window = new GenerationWindow(generation);
 
         while (true) {
+            if (generation.generationNumber == numberOfGenerations){
+                System.out.println("Generation number is " + numberOfGenerations+". Pausing.");
+                playing = false;
+            }
             if (playing) {
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
