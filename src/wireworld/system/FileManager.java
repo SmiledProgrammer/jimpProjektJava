@@ -14,7 +14,6 @@ public class FileManager {
 	public static String openedFilePath;
 
 	public static Generation loadGenerationFromFile(String filepath) {
-
 		int[][] pregen = new int[50][50];
 		int width = -1;
 		int height = -1;
@@ -25,7 +24,6 @@ public class FileManager {
 		} else try {
 			FileReader fr = new FileReader(filepath);
 			BufferedReader br = new BufferedReader(fr);
-
 			String line = null;
 			String[] arguments = null;
 			int i = 0;
@@ -42,7 +40,6 @@ public class FileManager {
 					i++;
 				} else {
 					arguments = line.split(" ");
-
 					for (int x = 0; x < width; x++) {
 						try {
 							pregen[x][i - 1] = Integer.parseInt(arguments[x].toString());
@@ -81,23 +78,18 @@ public class FileManager {
 					gen.setCell(Generation.FieldState.FIELD_EMPTY, x, y);
 			}
 		}
-
 		System.out.println("Loaded the file correctly.");
 		return gen;
 	}
 
-
 	public static void saveGenerationToFile(Generation gen) {
-		
 		if(!savedFilePath.endsWith(".gen")) {
-			System.out.println("The filename doesn't end with .gen. Adding .gen");
+			System.out.println("The filename to save doesn't end with \".gen\". Adding \".gen\"");
 			savedFilePath = savedFilePath.concat(".gen");
-
 		}
 
 		try {
 			FileWriter fw = new FileWriter(savedFilePath);
-			
 			fw.write(gen.width + " " + gen.height);
 			fw.write("\n");
 			
@@ -115,15 +107,12 @@ public class FileManager {
 	    		}
 				fw.write("\n"); //nowa linia
 			}
-
 			fw.close();
 			System.out.println("File successfully saved (" + savedFilePath +").");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Couldn't save the file!");
 		}
-
-
 	}
 
 }

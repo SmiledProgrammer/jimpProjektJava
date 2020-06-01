@@ -33,16 +33,27 @@ public class WireComponent {
         for (Vector2D v : structure) //kopiowanie tablicy
             points.add(new Vector2D(v.x, v.y));
         if (orientation == Orientation.VERTICAL) { //zamienianie "x" z "y" (zmiana orientacji)
-            for (Vector2D v0 : points) {
-                int tmp = v0.x;
-                v0.x = v0.y;
-                v0.y = tmp;
+            for (Vector2D v : points) {
+                int tmp = v.x;
+                v.x = v.y;
+                v.y = tmp;
             }
         }
         if (flipped) { //lustrzane odbicie
-            for (Vector2D v1 : points) {
-                v1.x = size.x - 1 - v1.x;
-                v1.y = size.y - 1 - v1.y;
+            for (Vector2D v : points) {
+                v.x = size.x - 1 - v.x;
+                v.y = size.y - 1 - v.y;
+            }
+        }
+        if (orientation == Orientation.VERTICAL && flipped == true) { //naprawienie obrócenia, które odsuwa punkty bramki daleko od punktu początkowego
+            int minX = Integer.MAX_VALUE;
+            for (Vector2D v : points) { //znalezienie najbardziej wysuniętego w lewo punktu
+                if (v.x < minX)
+                    minX = v.x;
+            }
+            for (Vector2D v : points) {
+                v.x = v.x - minX; //przesunięcie wszystkich punktów w lewo aż do punktu początkowego
+                v.y = v.y + (size.x - size.y); //przesunięcie wszystkich punktów w dół w zależności od różnicy rozmiarów bramki (przesunięcie do punktu początkowego)
             }
         }
         return points;

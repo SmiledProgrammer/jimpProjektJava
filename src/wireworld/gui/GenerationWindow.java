@@ -133,6 +133,10 @@ public class GenerationWindow extends JFrame implements MouseListener {
         grid.setChosenGateType(gate);
     }
 
+    public void resetChosenGate() {
+        grid.setChosenGateType(null);
+    }
+
     public void resetMouseDown() {
         mouseDown = false;
     }

@@ -39,6 +39,7 @@ public class GateButton extends Button {
                 else
                     menu.setVisible(true);
             }
+            window.resetChosenGate();
             menu.clickAction();
         }
     };
