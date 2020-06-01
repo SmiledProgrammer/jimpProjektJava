@@ -1,6 +1,7 @@
 package wireworld.system;
 
 import wireworld.system.Generation;
+import wireworld.system.WireComponent.Orientation;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -28,10 +29,12 @@ public class FileManager {
 			String line = null;
 			String[] arguments = null;
 			int i = 0;
-			while ( (line = br.readLine() ) != null) {
+			while ( (line = br.readLine() ) != null)
+			{
+				arguments = line.split(" ");
 				if (i == 0) {
-					try {
-						arguments = line.split(" ");
+					try { //WCZYTYWANIE WYMIAROW
+						//arguments = line.split(" ");
 						width = Integer.parseInt(arguments[0]);
 						height = Integer.parseInt(arguments[1]);
 					} catch (Exception e) {
@@ -40,8 +43,11 @@ public class FileManager {
 					}
 					i++;
 					gen = new Generation(width, height);
-				} else {
-					arguments = line.split(" ");
+				}
+				//WCZYTYWANIE PLANSZY
+				else if (i<(height+1))
+				{
+					//arguments = line.split(" ");
 					for (int x = 0; x < width; x++) {
 						try {
 							if (Integer.parseInt(arguments[x]) == 0)
@@ -60,6 +66,56 @@ public class FileManager {
 						}
 					}
 					i++;
+				}
+				//WCZYTYWANIE BRAMEK
+				else if (( arguments.length == 5) && ( arguments[0].equalsIgnoreCase("OR") || arguments[0].equalsIgnoreCase("XOR")  || arguments[0].equalsIgnoreCase("AND") ) )
+				{
+					//arguments = line.split(" ");
+					WireComponentLibrary wireComponentLibrary = new WireComponentLibrary();
+					Orientation orientation = Orientation.HORIZONTAL;
+					boolean flipped = false;
+
+					if (arguments[3].equalsIgnoreCase("vertical"))
+						orientation = Orientation.VERTICAL;
+					else orientation = Orientation.HORIZONTAL;
+					if (arguments[4].equalsIgnoreCase("true"))
+						flipped = true;
+					else flipped = false;
+
+					if (arguments[0].equalsIgnoreCase("OR") )
+					{
+						try {
+							int x = Integer.parseInt(arguments[1]);
+							int y = Integer.parseInt(arguments[2]);
+							if (x>=0 && y>=0 && x<width && y<height)
+								wireComponentLibrary.placeComponent(gen, x, y, WireComponentLibrary.Type.OR_GATE, orientation,flipped);
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+					}
+					else if (arguments[0].equalsIgnoreCase("XOR"))
+					{
+						try {
+							int x = Integer.parseInt(arguments[1]);
+							int y = Integer.parseInt(arguments[2]);
+							if (x>=0 && y>=0 && x<width && y<height)
+								wireComponentLibrary.placeComponent(gen, x, y, WireComponentLibrary.Type.XOR_GATE, orientation,flipped);
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+					}
+					else if (arguments[0].equalsIgnoreCase("AND"))
+					{
+						try {
+							int x = Integer.parseInt(arguments[1]);
+							int y = Integer.parseInt(arguments[2]);
+							if (x>=0 && y>=0 && x<width && y<height)
+								wireComponentLibrary.placeComponent(gen, x, y, WireComponentLibrary.Type.AND_GATE, orientation,flipped);
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+					}
+
 				}
 			}
 			try {
