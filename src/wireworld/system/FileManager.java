@@ -32,9 +32,11 @@ public class FileManager {
 			while ( (line = br.readLine() ) != null)
 			{
 				arguments = line.split(" ");
-				if (i == 0) {
-					try { //WCZYTYWANIE WYMIAROW
-						//arguments = line.split(" ");
+				//WCZYTYWANIE WYMIAROW
+				if (i == 0)
+				{
+					try {
+
 						width = Integer.parseInt(arguments[0]);
 						height = Integer.parseInt(arguments[1]);
 					} catch (Exception e) {
@@ -47,7 +49,6 @@ public class FileManager {
 				//WCZYTYWANIE PLANSZY
 				else if (i<(height+1))
 				{
-					//arguments = line.split(" ");
 					for (int x = 0; x < width; x++) {
 						try {
 							if (Integer.parseInt(arguments[x]) == 0)
@@ -70,7 +71,6 @@ public class FileManager {
 				//WCZYTYWANIE BRAMEK
 				else if (( arguments.length == 5) && ( arguments[0].equalsIgnoreCase("OR") || arguments[0].equalsIgnoreCase("XOR")  || arguments[0].equalsIgnoreCase("AND") ) )
 				{
-					//arguments = line.split(" ");
 					WireComponentLibrary wireComponentLibrary = new WireComponentLibrary();
 					Orientation orientation = Orientation.HORIZONTAL;
 					boolean flipped = false;
