@@ -3,7 +3,6 @@ package wireworld.system;
 public class InputData {
 
     public static void processArguments(String[] args) {
-        String fileToOpenName = "";
         boolean fileToOpenSpecified = false;
         boolean newFileSpecified = false;
         int width = 0;
@@ -11,20 +10,18 @@ public class InputData {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--open")) {
                 if (i + 1 < args.length) {
-                    fileToOpenName = args[++i];
                     fileToOpenSpecified = true;
+                    FileManager.openedFilePath = args[++i];
                 } else {
                     System.err.println("Filepath to file to open wasn't specified after \"--open\".");
                 }
             } else if (args[i].equals("--save")) {
                 if (i + 1 < args.length) {
                     FileManager.savedFilePath = args[++i];
-                    //wstawilem to rowniez tutaj
                     if(!FileManager.savedFilePath.endsWith(".gen")) {
                         System.out.println("The filename to save doesn't end with .gen. Adding .gen");
                         FileManager.savedFilePath = FileManager.savedFilePath.concat(".gen");
                     }
-
                     System.out.println("Last generation will be saved in filepath \"" + FileManager.savedFilePath + "\".");
                 } else {
                     System.err.println("Filepath to save file in wasn't specified after \"--save\". wireworld.system.Generation will not be saved.");
@@ -76,14 +73,14 @@ public class InputData {
             System.out.println("No file to open specified. Creating new generation with the specified size.");
             WireWorld.generation = new Generation(width, height);
         } else if (fileToOpenSpecified && !newFileSpecified) {
-            System.out.println("Loading the generation from file \"" + fileToOpenName + "\".");
-            WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
+            System.out.println("Loading the generation from file \"" + FileManager.openedFilePath + "\".");
+            WireWorld.generation = FileManager.loadGenerationFromFile(FileManager.openedFilePath);
         } else if (fileToOpenSpecified && newFileSpecified) {
-            System.out.println("Loading the generation from file \"" + fileToOpenName + "\" and extending its size to the new specified size.");
-            WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
+            System.out.println("Loading the generation from file \"" + FileManager.openedFilePath + "\" and extending its size to the new specified size.");
+            WireWorld.generation = FileManager.loadGenerationFromFile(FileManager.openedFilePath);
             WireWorld.generation.extendToSize(width, height);
         }
-        if (fileToOpenName.equals(FileManager.savedFilePath)) {
+        if (FileManager.openedFilePath != null && FileManager.savedFilePath != null && FileManager.openedFilePath.equals(FileManager.savedFilePath)) {
             System.out.println("Warning: The opened generation filepath is same as saved generation filepath.");
         }
     }

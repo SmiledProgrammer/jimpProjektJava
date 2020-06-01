@@ -22,28 +22,16 @@ public class SaveButton extends Button {
         @Override
         public void clickAction() {
             if (mouseOnButton()) {
-                String tmp_savedFilePath = FileManager.savedFilePath;
-                String name_addition = "_generation" + WireWorld.generation.generationNumber + "snapshot.gen"; //np. blabla_generation23snapshot.gen
-
+                String savedFilePath;
                 if (FileManager.savedFilePath != null) {
-                    if (FileManager.savedFilePath.endsWith(".gen"))
-                        FileManager.savedFilePath = FileManager.savedFilePath.replaceFirst(".gen", name_addition);
-                    else
-                        FileManager.savedFilePath = FileManager.savedFilePath.concat(name_addition);
-
-                    FileManager.saveGenerationToFile(WireWorld.generation);
-                    FileManager.savedFilePath = tmp_savedFilePath;
+                    savedFilePath = FileManager.savedFilePath.replace(".gen", "");
+                } else if (FileManager.openedFilePath != null) {
+                    savedFilePath = FileManager.openedFilePath.replace(".gen", "");
                 } else {
-                    //przecież tutaj FileManager.savedFilePath jest null, więc nie można się do niego odnosić
-
-                    if (FileManager.openedFilePath.endsWith(".gen"))
-                        FileManager.savedFilePath = FileManager.openedFilePath.replaceFirst(".gen", name_addition);
-                    else
-                        FileManager.savedFilePath = FileManager.openedFilePath.concat(name_addition);
-
-                    FileManager.saveGenerationToFile(WireWorld.generation);
-                    FileManager.savedFilePath = tmp_savedFilePath;
+                    savedFilePath = "unnamed";
                 }
+                String snapshotFilePath = savedFilePath + "_generation" + WireWorld.generation.generationNumber + "snapshot.gen";
+                FileManager.saveGenerationToFile(WireWorld.generation, snapshotFilePath);
             }
         }
     };
