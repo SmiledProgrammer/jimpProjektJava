@@ -14,9 +14,10 @@ public class FileManager {
 	public static String openedFilePath;
 
 	public static Generation loadGenerationFromFile(String filepath) {
-		int[][] pregen = new int[50][50];
+
 		int width = -1;
 		int height = -1;
+		Generation gen = null;
 
 		if (!(filepath.endsWith(".gen"))) {
 			System.err.println("Wrong file format!");
@@ -38,11 +39,21 @@ public class FileManager {
 						e.printStackTrace();
 					}
 					i++;
+					gen = new Generation(width, height);
 				} else {
 					arguments = line.split(" ");
 					for (int x = 0; x < width; x++) {
 						try {
-							pregen[x][i - 1] = Integer.parseInt(arguments[x].toString());
+							if (Integer.parseInt(arguments[x]) == 0)
+								gen.setCell(Generation.FieldState.FIELD_EMPTY, x, i-1);
+							else if (Integer.parseInt(arguments[x]) == 1)
+								gen.setCell(Generation.FieldState.FIELD_CONDUCTOR, x, i-1);
+							else if (Integer.parseInt(arguments[x]) == 2)
+								gen.setCell(Generation.FieldState.FIELD_HEAD, x, i-1);
+							else if (Integer.parseInt(arguments[x]) == 3)
+								gen.setCell(Generation.FieldState.FIELD_TAIL, x, i-1);
+							else
+								gen.setCell(Generation.FieldState.FIELD_EMPTY, x, i-1);
 						} catch (Exception e) {
 							System.out.println("Wrong file format!");
 							e.printStackTrace();
@@ -63,21 +74,6 @@ public class FileManager {
 			e1.printStackTrace();
 		}
 
-		Generation gen = new Generation(width, height);
-		for (int x=0; x<width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (pregen[x][y] == 0)
-					gen.setCell(Generation.FieldState.FIELD_EMPTY, x, y);
-				else if (pregen[x][y] == 1)
-					gen.setCell(Generation.FieldState.FIELD_CONDUCTOR, x, y);
-				else if (pregen[x][y] == 2)
-					gen.setCell(Generation.FieldState.FIELD_HEAD, x, y);
-				else if (pregen[x][y] == 3)
-					gen.setCell(Generation.FieldState.FIELD_TAIL, x, y);
-				else
-					gen.setCell(Generation.FieldState.FIELD_EMPTY, x, y);
-			}
-		}
 		System.out.println("Loaded the file correctly.");
 		return gen;
 	}
