@@ -13,10 +13,14 @@ import java.awt.event.WindowEvent;
 
 public class GenerationWindow extends JFrame implements MouseListener {
 
-    private static final int width = 800;
-    private static final int height = 960;
+    private static final int minWidth = 640;
+    private static final int maxHeight = 960;
+    private static final int maxWidth = 1600;
+    private static final int preferredFieldSize = 100;
     private static final int border = 60;
     private static final int heightForButtons = 160;
+    private int width, height;
+    private int fieldWidth, fieldHeight;
 
     private GenerationGrid grid;
     private PlayButton playButton;
@@ -29,7 +33,8 @@ public class GenerationWindow extends JFrame implements MouseListener {
 
     public GenerationWindow(Generation gen) {
         super("Generation Window");
-        setupGrid(gen);
+        calculateSize(gen);
+        grid = new GenerationGrid(this, gen, border, border, fieldWidth, fieldHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width, height);
         this.setResizable(false);
@@ -45,10 +50,27 @@ public class GenerationWindow extends JFrame implements MouseListener {
         this.setVisible(true);
     }
 
-    private void setupGrid(Generation gen) {
-        int fieldWidth = (width - border * 2) / gen.width;
-        int fieldHeight = (height - border * 2  - heightForButtons) / gen.height;
-        grid = new GenerationGrid(this, gen, border, border, fieldWidth, fieldHeight);
+    private void calculateSize(Generation gen) {
+        int tmpHeight = border * 2 + gen.height * preferredFieldSize + heightForButtons;
+        if (tmpHeight > maxHeight) {
+            height = maxHeight;
+            fieldHeight = (maxHeight - border * 2 - heightForButtons) / gen.height;
+        } else {
+            height = tmpHeight;
+            fieldHeight = preferredFieldSize;
+        }
+
+        int tmpWidth = border * 2 + gen.width * fieldHeight;
+        if (tmpWidth < minWidth) {
+            width = minWidth;
+            fieldWidth = (minWidth - border * 2) / gen.width;
+        } else if (tmpWidth > maxWidth) {
+            width = maxWidth;
+            fieldWidth = (maxWidth - border * 2) / gen.width;
+        } else {
+            width = tmpWidth;
+            fieldWidth = fieldHeight;
+        }
     }
 
     private void setupButtons() {
@@ -101,6 +123,12 @@ public class GenerationWindow extends JFrame implements MouseListener {
         public void paintComponent(Graphics g) {
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, width, height); //szare tło
+
+            if (grid.isGateChosen()) { //rysowanie informacji o tym jak obrócić bramkę, jeśli jakaś jest wybrana
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("tipFont", Font.BOLD, 24));
+                g.drawString("Tip: To rotate the gate press Right Click.", 20, 40);
+            }
 
             grid.paint(g);
             playButton.paint(g);

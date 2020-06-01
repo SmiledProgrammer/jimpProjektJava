@@ -18,7 +18,7 @@ public class GateOption implements WindowComponent {
 
     private String gateName;
     private static final int fontSize = 32;
-    private static final int textOffsetX = 20;
+    private static final int textOffsetX = 10;
     private static final int textOffsetY = 48;
 
     private WireComponentLibrary.Type gate;

@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class PlayButton extends Button {
 
-    public final static int width = 160;
+    public final static int width = 120;
     public final static int height = 100;
 
     private boolean playing;
@@ -19,7 +19,7 @@ public class PlayButton extends Button {
 
     public void pause() {
         playing = false;
-        setText("Play", 56, 23, 70);
+        setText("Play", 48, 12, 68);
         defaultColor = new Color(0, 80, 0);
         hoverColor = new Color(0, 130, 0);
 
@@ -28,7 +28,7 @@ public class PlayButton extends Button {
 
     public void play() {
         playing = true;
-        setText("Pause", 48, 10, 67);
+        setText("Pause", 36, 8, 64);
         defaultColor = new Color(0, 204, 0);
         hoverColor = new Color(0, 255, 0);
 

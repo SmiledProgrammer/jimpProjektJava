@@ -88,7 +88,7 @@ public class GenerationGrid implements WindowComponent {
     private void paintChosenGate(Graphics g) {
         Generation gen = WireWorld.generation;
         Vector2D selectedField = getFieldWithMouseOn();
-        if (selectedField.x != -1 && selectedField.y != -1) {
+        if (chosenGateToPlace != null && selectedField.x != -1 && selectedField.y != -1) {
             List<Vector2D> points = WireWorld.componentLibrary.getComponentPoints(chosenGateToPlace, chosenGateOrientation, chosenGateFlipped);
             g.setColor(new Color(0, 0, 0, 80));
             for (Vector2D v : points) {
@@ -165,6 +165,10 @@ public class GenerationGrid implements WindowComponent {
 
     public int getFieldHeight() {
         return fieldHeight;
+    }
+
+    public boolean isGateChosen() {
+        return (chosenGateToPlace != null);
     }
 
 }
