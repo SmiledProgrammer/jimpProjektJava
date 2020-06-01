@@ -151,6 +151,10 @@ public class GenerationGrid implements WindowComponent {
         chosenGateToPlace = gate;
     }
 
+    public int getGenerationWidth() {
+        return generation.width;
+    }
+
     public int getGenerationHeight() {
         return generation.height;
     }

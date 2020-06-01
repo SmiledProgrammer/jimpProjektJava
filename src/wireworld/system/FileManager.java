@@ -82,36 +82,34 @@ public class FileManager {
 		return gen;
 	}
 
-	public static void saveGenerationToFile(Generation gen) {
-		if(!savedFilePath.endsWith(".gen")) {
-			System.out.println("The filename to save doesn't end with \".gen\". Adding \".gen\"");
-			savedFilePath = savedFilePath.concat(".gen");
-		}
+	public static void saveGenerationToFile(Generation gen, String filename) {
+		if (filename != null) {
+			try {
+				FileWriter fw = new FileWriter(filename);
+				fw.write(gen.width + " " + gen.height);
+				fw.write("\n");
 
-		try {
-			FileWriter fw = new FileWriter(savedFilePath);
-			fw.write(gen.width + " " + gen.height);
-			fw.write("\n");
-			
-			for (int i=0; i<gen.height; i++) {
-				for (int j=0; j<gen.width; j++) {
-	    			if (gen.getCell(j, i) == Generation.FieldState.FIELD_EMPTY) {
-	    				fw.write( 0 + " ");
-	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_CONDUCTOR) {
-	    				fw.write( 1 + " ");
-	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_HEAD) {
-	    				fw.write( 2 + " ");
-	    			} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_TAIL) {
-	    				fw.write( 3 + " ");
-	    			}
-	    		}
-				fw.write("\n"); //nowa linia
+				for (int i = 0; i < gen.height; i++) {
+					for (int j = 0; j < gen.width; j++) {
+						if (gen.getCell(j, i) == Generation.FieldState.FIELD_EMPTY) {
+							fw.write(0 + " ");
+						} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_CONDUCTOR) {
+							fw.write(1 + " ");
+						} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_HEAD) {
+							fw.write(2 + " ");
+						} else if (gen.getCell(j, i) == Generation.FieldState.FIELD_TAIL) {
+							fw.write(3 + " ");
+						}
+					}
+					fw.write("\n"); //nowa linia
+				}
+				fw.close();
+				System.out.println("File successfully saved (" + filename + ").");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Couldn't save the file!");
 			}
-			fw.close();
-			System.out.println("File successfully saved (" + savedFilePath +").");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Couldn't save the file!");
+			System.out.println("Generation has been saved.");
 		}
 	}
 

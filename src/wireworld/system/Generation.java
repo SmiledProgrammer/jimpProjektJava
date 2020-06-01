@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Generation {
 
-    private final int defaultGenerationWidth = 20;
+    private final int defaultGenerationWidth = 10;
     private final int defaultGenerationHeight = 10;
 
     public ArrayList<GridChange> changes;
@@ -17,15 +17,22 @@ public class Generation {
     public boolean isGenerationDead = false;
 
     public Generation() {
-        width = defaultGenerationWidth;
-        height = defaultGenerationHeight;
-        grid = new FieldState[width][height];
+        initGeneration(defaultGenerationWidth, defaultGenerationHeight);
     }
 
     public Generation(int width, int height) {
+        initGeneration(width, height);
+    }
+
+    private void initGeneration(int width, int height) {
         this.width = width;
         this.height = height;
         grid = new FieldState[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                grid[x][y] = FieldState.FIELD_EMPTY;
+            }
+        }
     }
 
     public void extendToSize(int width, int height) { //funkcja rozszerza lub zachowuje rozmiar generacji
@@ -51,24 +58,6 @@ public class Generation {
         else {
             System.out.println("New width and height are too small. Aborting grid extension.");
         }
-    }
-    
-    public void printToConsole() { //MOSTLY FOR DEBUGGING
-    	System.out.println(width + " " + height);
-    	for (int y=0; y< height; y++) {
-    		for (int x=0; x<width; x++) {
-    			if (grid[x][y] == Generation.FieldState.FIELD_EMPTY) {
-    				System.out.printf( 0 +" ");
-    			} else if (grid[x][y] == Generation.FieldState.FIELD_CONDUCTOR) {
-    				System.out.printf( 1 +" ");
-    			} else if (grid[x][y] == Generation.FieldState.FIELD_HEAD) {
-    				System.out.printf( 2 +" ");
-    			} else if (grid[x][y] == Generation.FieldState.FIELD_TAIL) {
-    				System.out.printf( 3 +" ");
-    			}
-    		}
-    		System.out.println(" "); //nowa linia
-    	}
     }
 
     public void calculateNextGeneration() {

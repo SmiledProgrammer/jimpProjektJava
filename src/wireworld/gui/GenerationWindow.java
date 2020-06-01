@@ -17,7 +17,6 @@ public class GenerationWindow extends JFrame implements MouseListener {
     private static final int height = 960;
     private static final int border = 60;
     private static final int heightForButtons = 160;
-    private int buttonsSpacing;
 
     private GenerationGrid grid;
     private PlayButton playButton;
@@ -31,7 +30,6 @@ public class GenerationWindow extends JFrame implements MouseListener {
     public GenerationWindow(Generation gen) {
         super("Generation Window");
         setupGrid(gen);
-        calculateSizes();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width, height);
         this.setResizable(false);
@@ -39,10 +37,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (FileManager.savedFilePath != null) {
-                    FileManager.saveGenerationToFile(gen);
-                    System.out.println("Generation has been saved.");
-                }
+                FileManager.saveGenerationToFile(gen, FileManager.savedFilePath);
             }
         });
         this.addMouseListener(this);
@@ -57,6 +52,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
     }
 
     private void setupButtons() {
+        int buttonsSpacing = (grid.getFieldWidth() * grid.getGenerationWidth() - PlayButton.width - NextButton.width - GateButton.width - SaveButton.width) / 3;
         int buttonsY = border + grid.getFieldHeight() * grid.getGenerationHeight() + (heightForButtons - border) / 2;
 
         int pauseButtonX = border;
@@ -70,10 +66,6 @@ public class GenerationWindow extends JFrame implements MouseListener {
 
         int saveButtonX = border + PlayButton.width + buttonsSpacing + NextButton.width + buttonsSpacing + GateButton.width + buttonsSpacing;
         saveButton = new SaveButton(this, saveButtonX, buttonsY);
-    }
-
-    private void calculateSizes() {
-        buttonsSpacing = (grid.getFieldWidth() * grid.getGenerationHeight() - PlayButton.width - NextButton.width - GateButton.width - SaveButton.width) / 3;
     }
 
     @Override
@@ -107,7 +99,6 @@ public class GenerationWindow extends JFrame implements MouseListener {
 
     public class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
-        	//generation.printToConsole(); //debugging
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, width, height); //szare tło
 
