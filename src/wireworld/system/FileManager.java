@@ -44,7 +44,6 @@ public class FileManager {
 					arguments = line.split(" ");
 					for (int x = 0; x < width; x++) {
 						try {
-							//pregen[x][i - 1] = Integer.parseInt(arguments[x]);
 							if (Integer.parseInt(arguments[x]) == 0)
 								gen.setCell(Generation.FieldState.FIELD_EMPTY, x, i-1);
 							else if (Integer.parseInt(arguments[x]) == 1)
