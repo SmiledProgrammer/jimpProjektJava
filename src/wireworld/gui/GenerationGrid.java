@@ -92,8 +92,10 @@ public class GenerationGrid implements WindowComponent {
             List<Vector2D> points = WireWorld.componentLibrary.getComponentPoints(chosenGateToPlace, chosenGateOrientation, chosenGateFlipped);
             g.setColor(new Color(0, 0, 0, 80));
             for (Vector2D v : points) {
-                if ((selectedField.x + v.x) < gen.width && (selectedField.y + v.y) < gen.height)
-                    g.fillRect(this.x + fieldWidth * (selectedField.x + v.x), this.y + fieldHeight * (selectedField.y + v.y), fieldWidth, fieldHeight);
+                int actualX = (selectedField.x + v.x);
+                int actualY = (selectedField.y + v.y);
+                if (actualX >= 0 && actualX < gen.width && actualY >= 0 && actualY < gen.height)
+                    g.fillRect(this.x + fieldWidth * actualX, this.y + fieldHeight * actualY, fieldWidth, fieldHeight);
             }
         }
     }
@@ -109,7 +111,7 @@ public class GenerationGrid implements WindowComponent {
                         generation.setCell(Generation.FieldState.FIELD_CONDUCTOR, selectedField.x, selectedField.y);
                     } else if (selectedFieldState == Generation.FieldState.FIELD_CONDUCTOR) {
                         generation.setCell(Generation.FieldState.FIELD_HEAD, selectedField.x, selectedField.y);
-                    } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD) {
+                    } else if (selectedFieldState == Generation.FieldState.FIELD_HEAD || selectedFieldState == Generation.FieldState.FIELD_TAIL) {
                         generation.setCell(Generation.FieldState.FIELD_EMPTY, selectedField.x, selectedField.y);
                     }
                 }
@@ -147,14 +149,6 @@ public class GenerationGrid implements WindowComponent {
 
     public void setChosenGateType(WireComponentLibrary.Type gate) {
         chosenGateToPlace = gate;
-    }
-
-    public void setChosenGateOrientation(WireComponent.Orientation orientation) {
-        chosenGateOrientation = orientation;
-    }
-
-    public void setChosenGateFlipped(boolean flipped) {
-        chosenGateFlipped = flipped;
     }
 
     public int getGenerationHeight() {

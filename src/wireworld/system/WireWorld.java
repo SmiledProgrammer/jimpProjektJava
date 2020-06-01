@@ -28,10 +28,11 @@ public class WireWorld {
         while (true) {
             if (generation.generationNumber == numberOfGenerations && playing == true && has_paused_already==false){
                 System.out.println("Generation number is " + numberOfGenerations+". Pausing.");
-                window.playButton.pause();
+                window.pause();
                 has_paused_already = true;
             }
             if (playing) {
+                if (!generation.isGenerationDead) {
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);
                     window.getContentPane().revalidate();
@@ -44,6 +45,9 @@ public class WireWorld {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    window.pause();
+                }
             } else if (step_to_next) {         //it has to be pause (playing == false) to perform this
                     generation.calculateNextGeneration();
                     System.out.println("Generation #" + generation.generationNumber);

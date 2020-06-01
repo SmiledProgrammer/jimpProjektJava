@@ -25,7 +25,7 @@ public class InputData {
                         FileManager.savedFilePath = FileManager.savedFilePath.concat(".gen");
                     }
 
-                    System.out.println("wireworld.system.WireWorld will be saved in filepath \"" + FileManager.savedFilePath + "\".");
+                    System.out.println("Last generation will be saved in filepath \"" + FileManager.savedFilePath + "\".");
                 } else {
                     System.err.println("Filepath to save file in wasn't specified after \"--save\". wireworld.system.Generation will not be saved.");
                 }
@@ -78,12 +78,13 @@ public class InputData {
         } else if (fileToOpenSpecified && !newFileSpecified) {
             System.out.println("Loading the generation from file \"" + fileToOpenName + "\".");
             WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
-            FileManager.openedFilePath = fileToOpenName;
         } else if (fileToOpenSpecified && newFileSpecified) {
             System.out.println("Loading the generation from file \"" + fileToOpenName + "\" and extending its size to the new specified size.");
             WireWorld.generation = FileManager.loadGenerationFromFile(fileToOpenName);
-            FileManager.openedFilePath = fileToOpenName;
             WireWorld.generation.extendToSize(width, height);
+        }
+        if (fileToOpenName.equals(FileManager.savedFilePath)) {
+            System.out.println("Warning: The opened generation filepath is same as saved generation filepath.");
         }
     }
 

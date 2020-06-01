@@ -20,7 +20,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
     private int buttonsSpacing;
 
     private GenerationGrid grid;
-    public PlayButton playButton;
+    private PlayButton playButton;
     private Button nextButton;
     private Button gateButton;
     private Button saveButton;
@@ -39,7 +39,7 @@ public class GenerationWindow extends JFrame implements MouseListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (FileManager.savedFilePath!=null) {
+                if (FileManager.savedFilePath != null) {
                     FileManager.saveGenerationToFile(gen);
                     System.out.println("Generation has been saved.");
                 }
@@ -133,16 +133,12 @@ public class GenerationWindow extends JFrame implements MouseListener {
         grid.setChosenGateType(gate);
     }
 
-    public void setChosenGateOrientation(WireComponent.Orientation orientation) {
-        grid.setChosenGateOrientation(orientation);
-    }
-
-    public void setChosenGateFlipped(boolean flipped) {
-        grid.setChosenGateFlipped(flipped);
-    }
-
     public void resetMouseDown() {
         mouseDown = false;
+    }
+
+    public void pause() {
+        playButton.pause();
     }
 
     public boolean isBlockingEditing() {

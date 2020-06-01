@@ -20,7 +20,7 @@ public class FileManager {
 		int height = -1;
 
 		if (!(filepath.endsWith(".gen"))) {
-			System.err.println("Nieprawid�owe rozszerzenie pliku!");
+			System.err.println("Wrong file format!");
 			return null;
 		} else try {
 			FileReader fr = new FileReader(filepath);
@@ -35,14 +35,12 @@ public class FileManager {
 						arguments = line.split(" ");
 						width = Integer.parseInt(arguments[0]);
 						height = Integer.parseInt(arguments[1]);
-
 					} catch (Exception e) {
-						System.out.println("Wrong file format!");
+						System.err.println("Wrong file format!");
 						e.printStackTrace();
 					}
 					i++;
 				} else {
-
 					arguments = line.split(" ");
 
 					for (int x = 0; x < width; x++) {

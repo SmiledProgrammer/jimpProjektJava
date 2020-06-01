@@ -30,9 +30,7 @@ public class Generation {
 
     public void extendToSize(int width, int height) { //funkcja rozszerza lub zachowuje rozmiar generacji
         if (width>this.width && height>this.height) {
-
             FieldState[][] newGrid = new FieldState[width][height];
-
             for (int y = 0; y < height; y++) //FILLING THE NEW GRID WITH FIELD_EMPTY
                 for (int x = 0; x < width; x++)
                     newGrid[x][y] = FieldState.FIELD_EMPTY;
@@ -51,7 +49,7 @@ public class Generation {
             this.height = height;
         }
         else {
-            System.out.println("New x and y too small. Aborting grid extension.");
+            System.out.println("New width and height are too small. Aborting grid extension.");
         }
     }
     
