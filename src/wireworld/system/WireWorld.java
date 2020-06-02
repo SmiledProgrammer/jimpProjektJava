@@ -1,17 +1,15 @@
 package wireworld.system;
 
 import wireworld.gui.GenerationWindow;
-import wireworld.gui.PlayButton;
 
-import java.awt.font.TextHitInfo;
 
 public class WireWorld {
 	
-	//private static Thread runThread;
+
 	private static final int delay = 100; //opoznienie - szybkosc odswiezania
 	
     public static Generation generation;
-    public static int numberOfGenerations = 1000;
+    public static int numberOfGenerations = 1000; //on default - pauses at 1000th generation
     public static GenerationWindow window;
 
     public static boolean playing = false;
@@ -22,7 +20,6 @@ public class WireWorld {
 
     public static void main(String[] args) throws InterruptedException {
         InputData.processArguments(args);
-        //generation.printToConsole();
         window = new GenerationWindow(generation);
 
         while (true) {
